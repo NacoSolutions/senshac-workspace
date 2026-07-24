@@ -7,30 +7,30 @@ canonical_tracker = "senshac-web"
 
 [[repositories]]
 name = "senshac-web"
-path = "../senshac"
+path = "../../senshac"
 role = "live web implementation"
 status = "active"
 
 [[repositories]]
 name = "senshac-content"
-path = "../senshac-content"
+path = "../../senshac-content"
 role = "future Tina content repository"
 status = "planned"
 
 [[repositories]]
 name = "senshac-infra"
-path = "../senshac-infra"
+path = "../../senshac-infra"
 role = "Cloudflare infrastructure"
 status = "planned"
 
 [[repositories]]
 name = "senshac-runner"
-path = "../senshac-runner"
+path = "../../senshac-runner"
 role = "Flox and CI runner"
 status = "planned"
 
 [[repositories]]
 name = "senshac-media-runner"
-path = "../senshac-media-runner"
+path = "../../senshac-media-runner"
 role = "media processing and ingestion"
 status = "planned"
