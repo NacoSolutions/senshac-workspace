@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+test -f "$root/.config/workspace.toml"
+
+awk '
+  /^\[\[repositories\]\]$/ { if (name != "") print name "\t" path "\t" status; name=""; path=""; status="" }
+  /^name = / { value=$0; sub(/^name = "/, "", value); sub(/"$/, "", value); if (name == "") name=value }
+  /^path = / { value=$0; sub(/^path = "/, "", value); sub(/"$/, "", value); path=value }
+  /^status = / { value=$0; sub(/^status = "/, "", value); sub(/"$/, "", value); status=value }
+  END { if (name != "") print name "\t" path "\t" status }
+' "$root/.config/workspace.toml" | while IFS=$'\t' read -r name path status; do
+  absolute="$(cd -- "$root/$path" 2>/dev/null && pwd || true)"
+  if [ -n "$absolute" ]; then
+    printf '%-24s %-9s %s\n' "$name" "$status" "$absolute"
+  else
+    printf '%-24s %-9s %s (missing)\n' "$name" "$status" "$path"
+  fi
+done

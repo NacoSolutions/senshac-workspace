@@ -1,0 +1,4 @@
+.env.local
+.env.pages
+.secrets.act
+.direnv/
