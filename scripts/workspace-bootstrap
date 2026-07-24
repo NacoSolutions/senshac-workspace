@@ -3,4 +3,5 @@ set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 test -f "$root/.config/workspace.toml"
 test -x "$root/scripts/workspace-status"
+test -x "$root/scripts/wx"
 "$root/scripts/workspace-status"
