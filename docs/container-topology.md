@@ -12,11 +12,13 @@ rootless Act.
 | Repository | Image | Duty | State |
 | --- | --- | --- | --- |
 | `NacoSolutions/senshac-runner` | `ghcr.io/nacosolutions/senshac-runner` | Bun, Astro, Flox, Act, checks, and general CI runtime. | Active |
-| `NacoSolutions/senshac-media-runner` | `ghcr.io/nacosolutions/senshac-media-runner` | Sharp, ffmpeg, font processing, R2 transfer, and media verification. | Planned |
+| `NacoSolutions/senshac-media-runner` | `ghcr.io/nacosolutions/senshac-media-processor` | Sharp, ffmpeg, font processing, R2 transfer, and media verification. | Active |
 
-Repository and package names stay aligned. A producer must not take over a
-package first published by another repository because GHCR links package
-administration to the original publisher. Images should include
+Repository and package names should stay aligned when ownership permits it. The
+media package uses `senshac-media-processor` because the legacy web repository
+owns the historical `senshac-media-runner` package and GitHub does not allow
+the focused workflow token to transfer its administration. A producer must not
+take over a package first published by another repository. Images should include
 `org.opencontainers.image.source` pointing to their owning GitHub repository.
 
 ## Publication
@@ -79,7 +81,9 @@ images   Read source images and write responsive AVIF/WebP variants.
 video    Read source MP4 files and write HLS playlists and segments.
 font     Read source font files and write language-subset WOFF2 files.
 verify   Validate generated image, HLS, and font outputs.
-sync     Transfer explicit input/output prefixes between local storage and R2.
+download Download one explicit raw R2 object.
+upload   Upload one generated output tree to production R2.
+verify-r2 Compare generated output with production R2.
 ```
 
 Local file operations use these mounts:
@@ -107,19 +111,17 @@ R2_PROD_BUCKET
 Callers pass only the variables required by the selected operation. Logs must
 not print credential values. The image contains no `.env` files.
 
-GitHub workflows and local Act use the same digest through
-`SENSHAC_MEDIA_RUNNER_IMAGE`:
+The verified media digest is:
 
-```yaml
-jobs:
-  media:
-    runs-on: ubuntu-latest
-    container:
-      image: ${{ vars.SENSHAC_MEDIA_RUNNER_IMAGE }}
+```text
+ghcr.io/nacosolutions/senshac-media-processor@sha256:d070c3f6f98acb99d9f6f05060ffd69463c71e2ae1e422acafe0294580083dfe
 ```
 
+GitHub workflows and local Act pin that reference directly. Local commands may
+override it explicitly with `MEDIA_RUNNER_IMAGE`:
+
 ```bash
-SENSHAC_MEDIA_RUNNER_IMAGE='ghcr.io/nacosolutions/senshac-media-runner@sha256:<digest>' \
+MEDIA_RUNNER_IMAGE='ghcr.io/nacosolutions/senshac-media-processor@sha256:<digest>' \
   dx bun run test:workflow:media
 ```
 
@@ -129,7 +131,7 @@ A direct local smoke test uses explicit mounts:
 podman run --rm --userns=keep-id \
   -v "$PWD/input:/work/input:ro" \
   -v "$PWD/output:/work/output" \
-  'ghcr.io/nacosolutions/senshac-media-runner@sha256:<digest>' verify
+  'ghcr.io/nacosolutions/senshac-media-processor@sha256:<digest>' verify
 ```
 
 ## Ownership Boundaries
