@@ -27,7 +27,7 @@ status = "planned"
 name = "senshac-runner"
 path = "../../senshac-runner"
 role = "Flox and CI runner"
-status = "prototype"
+status = "active"
 
 [[repositories]]
 name = "senshac-media-runner"
