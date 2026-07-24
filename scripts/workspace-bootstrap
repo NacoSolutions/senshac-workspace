@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+root="${SENSHAC_WORKSPACE_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
 test -f "$root/.config/workspace.toml"
+test -x "$root/scripts/workspace-check"
 test -x "$root/scripts/workspace-status"
 test -x "$root/scripts/wx"
+"$root/scripts/workspace-check"
 "$root/scripts/workspace-status"

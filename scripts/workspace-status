@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-test -f "$root/.config/workspace.toml"
+root="${SENSHAC_WORKSPACE_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
+config="${SENSHAC_WORKSPACE_CONFIG:-$root/.config/workspace.toml}"
+test -f "$config"
 
 awk '
   /^\[\[repositories\]\]$/ { if (name != "") print name "\t" path "\t" status; name=""; path=""; status=""; in_repo=1 }
@@ -10,7 +11,7 @@ awk '
   /^path = / { value=$0; sub(/^path = "/, "", value); sub(/"$/, "", value); if (in_repo) path=value }
   /^status = / { value=$0; sub(/^status = "/, "", value); sub(/"$/, "", value); if (in_repo) status=value }
   END { if (name != "") print name "\t" path "\t" status }
-' "$root/.config/workspace.toml" | while IFS=$'\t' read -r name path status; do
+' "$config" | while IFS=$'\t' read -r name path status; do
   absolute="$(cd -- "$root/$path" 2>/dev/null && pwd || true)"
   if [ -n "$absolute" ]; then
     printf '%-24s %-9s %s\n' "$name" "$status" "$absolute"

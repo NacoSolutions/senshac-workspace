@@ -1,0 +1,32 @@
+# Senshac Workspace
+
+This meta-repository is the registry and operator entry point for the focused
+Senshac repositories. It contains coordination scripts and documentation, not
+application code or plaintext secrets.
+
+## Bootstrap
+
+Clone the meta-repository beside the focused bare-repository wrappers:
+
+```text
+NacoSolutions/
+├── senshac-workspace/
+├── senshac/
+├── senshac-runner/
+└── senshac-media-runner/
+```
+
+Each wrapper must have a clean `main/` integration worktree and the GitHub
+origin declared in `.config/workspace.toml`. Then verify the workspace:
+
+```bash
+./scripts/workspace-bootstrap
+./scripts/workspace-test
+```
+
+Use `./scripts/wx <wt-command> --repo <name> [arguments]` only for selecting a
+registered repository before passing arguments directly to Worktrunk. Run
+repository commands through that repository's `dx` or `fx` wrapper.
+
+Canonical Seeds and Terrarium state remains in `senshac-web` until a separate
+tracker migration explicitly changes ownership.

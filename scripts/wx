@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-config="$root/.config/workspace.toml"
+root="${SENSHAC_WORKSPACE_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
+config="${SENSHAC_WORKSPACE_CONFIG:-$root/.config/workspace.toml}"
 command="${1:-}"
 [ -n "$command" ] || { echo 'Usage: wx <wt-command> --repo <name> [wt args...]' >&2; exit 2; }
 shift

@@ -1,11 +1,12 @@
 # Senshac Workspace
 
-This local-only meta-repo coordinates the Senshac focused repositories. It
-does not contain application code or plaintext secrets.
+This meta-repository coordinates the Senshac focused repositories. It does not
+contain application code or plaintext secrets.
 
-Use `./scripts/workspace-status` to inspect registered repositories. Use the
+Run `./scripts/workspace-bootstrap` before cross-repository work and
+`./scripts/workspace-test` after changing registry or wrapper behavior. Use the
 active `senshac-web` repository for the canonical Seeds/Terrarium graph until
-a promoted workspace repository owns cross-repo tracking.
+an explicit tracker migration changes ownership.
 
 Use `./scripts/wx <wt-command> --repo <name> [wt args...]` to select a
 repository and delegate directly to native `wt`, for example

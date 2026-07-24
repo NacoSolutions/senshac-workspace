@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+mkdir -p "$tmp/root/.config" "$tmp/bin"
+
+make_repo() {
+  local name="$1"
+  local url="$2"
+  mkdir -p "$tmp/root/$name/.git" "$tmp/root/$name/main"
+  git -C "$tmp/root/$name/main" init -q
+  git -C "$tmp/root/$name/main" remote add origin "$url"
+}
+
+make_repo web https://example.test/web.git
+make_repo runner https://example.test/runner.git
+cat > "$tmp/root/.config/workspace.toml" <<'EOF'
+[[repositories]]
+name = "web"
+path = "web"
+url = "https://example.test/web.git"
+status = "active"
+
+[[repositories]]
+name = "content"
+path = "content"
+url = "https://example.test/content.git"
+status = "planned"
+
+[[repositories]]
+name = "runner"
+path = "runner"
+url = "https://example.test/runner.git"
+status = "active"
+EOF
+
+export SENSHAC_WORKSPACE_ROOT="$tmp/root"
+export SENSHAC_WORKSPACE_CONFIG="$tmp/root/.config/workspace.toml"
+check_output="$("$repo_root/scripts/workspace-check")"
+grep -q '2 active repositories verified' <<<"$check_output"
+status_output="$("$repo_root/scripts/workspace-status")"
+grep -q 'content.*planned.*missing' <<<"$status_output"
+
+sed -i 's/status = "planned"/status = "active"/' "$SENSHAC_WORKSPACE_CONFIG"
+if "$repo_root/scripts/workspace-check" >/dev/null 2>&1; then
+  echo "workspace-test: missing active repository was accepted" >&2
+  exit 1
+fi
+sed -i '0,/status = "active"/! s/status = "active"/status = "planned"/' "$SENSHAC_WORKSPACE_CONFIG"
+
+cat > "$tmp/bin/wt" <<EOF
+#!/usr/bin/env bash
+printf '%s\\n' "\$@" > "$tmp/wt.args"
+EOF
+chmod +x "$tmp/bin/wt"
+PATH="$tmp/bin:$PATH" "$repo_root/scripts/wx" switch --repo web --create feature/example
+diff -u <(printf '%s\n' -C "$tmp/root/web" switch --create feature/example) "$tmp/wt.args"
+
+echo "workspace-test: all contracts passed"

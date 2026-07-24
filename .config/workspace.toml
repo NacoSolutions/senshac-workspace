@@ -2,35 +2,40 @@ version = 1
 
 [workspace]
 name = "senshac-workspace"
-mode = "local-only"
+mode = "github"
 canonical_tracker = "senshac-web"
 
 [[repositories]]
 name = "senshac-web"
 path = "../../senshac"
+url = "https://github.com/NacoSolutions/senshac.git"
 role = "live web implementation"
 status = "active"
 
 [[repositories]]
 name = "senshac-content"
 path = "../../senshac-content"
+url = "https://github.com/NacoSolutions/senshac-content.git"
 role = "future Tina content repository"
 status = "planned"
 
 [[repositories]]
 name = "senshac-infra"
 path = "../../senshac-infra"
+url = "https://github.com/NacoSolutions/senshac-infra.git"
 role = "Cloudflare infrastructure"
 status = "planned"
 
 [[repositories]]
 name = "senshac-runner"
 path = "../../senshac-runner"
+url = "https://github.com/NacoSolutions/senshac-runner.git"
 role = "Flox and CI runner"
 status = "active"
 
 [[repositories]]
 name = "senshac-media-runner"
 path = "../../senshac-media-runner"
+url = "https://github.com/NacoSolutions/senshac-media-runner.git"
 role = "media processing and ingestion"
-status = "planned"
+status = "active"

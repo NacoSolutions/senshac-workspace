@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="${SENSHAC_WORKSPACE_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
+config="${SENSHAC_WORKSPACE_CONFIG:-$root/.config/workspace.toml}"
+test -f "$config"
+
+declare -A seen=()
+active=0
+while IFS=$'\t' read -r name path url status; do
+  [ -n "$name" ] && [ -n "$path" ] && [ -n "$url" ] && [ -n "$status" ] || {
+    echo "workspace-check: incomplete repository record" >&2
+    exit 1
+  }
+  [ -z "${seen[$name]:-}" ] || {
+    echo "workspace-check: duplicate repository '$name'" >&2
+    exit 1
+  }
+  seen[$name]=1
+
+  case "$status" in
+    active)
+      active=$((active + 1))
+      wrapper="$(realpath -m "$root/$path")"
+      [ -d "$wrapper/.git" ] && [ -d "$wrapper/main" ] || {
+        echo "workspace-check: active repository wrapper missing: $name ($wrapper)" >&2
+        exit 1
+      }
+      actual="$(git -C "$wrapper/main" remote get-url origin 2>/dev/null || true)"
+      case "$actual" in
+        "$url"|"${url%.git}") ;;
+        *)
+          echo "workspace-check: origin mismatch for $name: expected $url, got ${actual:-none}" >&2
+          exit 1
+          ;;
+      esac
+      ;;
+    planned) ;;
+    *)
+      echo "workspace-check: invalid status '$status' for $name" >&2
+      exit 1
+      ;;
+  esac
+done < <(
+  awk '
+    /^\[\[repositories\]\]$/ {
+      if (name != "") print name "\t" path "\t" url "\t" status
+      name=""; path=""; url=""; status=""; in_repo=1
+    }
+    in_repo && /^name = / { value=$0; sub(/^name = "/, "", value); sub(/"$/, "", value); name=value }
+    in_repo && /^path = / { value=$0; sub(/^path = "/, "", value); sub(/"$/, "", value); path=value }
+    in_repo && /^url = / { value=$0; sub(/^url = "/, "", value); sub(/"$/, "", value); url=value }
+    in_repo && /^status = / { value=$0; sub(/^status = "/, "", value); sub(/"$/, "", value); status=value }
+    END { if (name != "") print name "\t" path "\t" url "\t" status }
+  ' "$config"
+)
+
+[ "$active" -gt 0 ] || {
+  echo "workspace-check: no active repositories registered" >&2
+  exit 1
+}
+
+if git -C "$root" rev-parse --git-dir >/dev/null 2>&1; then
+  forbidden="$(git -C "$root" ls-files -- '.env.local' '.env.pages' '.secrets.act')"
+  [ -z "$forbidden" ] || {
+    echo "workspace-check: plaintext secret file is tracked: $forbidden" >&2
+    exit 1
+  }
+fi
+
+echo "workspace-check: $active active repositories verified"
