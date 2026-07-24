@@ -4,12 +4,8 @@ set -euo pipefail
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 config="$root/.config/workspace.toml"
 command="${1:-}"
-[ -n "$command" ] || { echo 'Usage: wx list | wx <status|switch|merge|remove> --repo <name> [wt args...]' >&2; exit 2; }
+[ -n "$command" ] || { echo 'Usage: wx <wt-command> --repo <name> [wt args...]' >&2; exit 2; }
 shift
-
-if [ "$command" = "list" ] && [ "$#" -eq 0 ]; then
-  exec wt list
-fi
 
 repo_name=""
 args=()
@@ -36,8 +32,4 @@ relative="$(awk -v wanted="$repo_name" '
 wrapper="$(realpath "$root/$relative")"
 [ -d "$wrapper/.git" ] || { echo "wx: repository wrapper missing: $wrapper" >&2; exit 1; }
 
-case "$command" in
-  status) exec wt -C "$wrapper" list "${args[@]}" ;;
-  switch|merge|remove) exec wt -C "$wrapper" "$command" "${args[@]}" ;;
-  *) echo "wx: unsupported command '$command'" >&2; exit 2 ;;
-esac
+exec wt -C "$wrapper" "$command" "${args[@]}"
