@@ -24,7 +24,7 @@ name = "senshac-infra"
 path = "../../senshac-infra"
 url = "https://github.com/NacoSolutions/senshac-infra.git"
 role = "Cloudflare infrastructure"
-status = "planned"
+status = "active"
 
 [[repositories]]
 name = "senshac-runner"
