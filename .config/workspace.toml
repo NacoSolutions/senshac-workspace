@@ -21,7 +21,7 @@ status = "active"
 
 [[repositories]]
 name = "senshac-workspace"
-path = "."
+path = "../../senshac-workspace"
 url = "https://github.com/NacoSolutions/senshac-workspace.git"
 role = "workspace registry and operator tooling"
 status = "active"
