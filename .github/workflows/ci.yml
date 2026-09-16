@@ -15,3 +15,11 @@ jobs:
       - uses: actions/checkout@v7.0.1
       - name: Verify workspace registry contracts
         run: ./scripts/workspace-test
+      - name: Verify Seeds merge strategy
+        run: |
+          test -x scripts/merge-seeds-jsonl.ts
+          git config merge.seeds-jsonl.driver "bun $PWD/scripts/merge-seeds-jsonl.ts %O %A %B"
+          for path in .seeds/issues.jsonl .seeds/plans.jsonl .seeds/templates.jsonl; do
+            test "$(git check-attr merge -- "$path" | awk '{print $3}')" = seeds-jsonl
+          done
+          bun scripts/merge-seeds-jsonl.ts 2>&1 | grep -q 'usage:'
