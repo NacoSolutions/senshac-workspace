@@ -10,7 +10,7 @@ name = "senshac-web"
 path = "../../senshac-web"
 url = "https://github.com/NacoSolutions/senshac-web.git"
 role = "future Astro/TinaCMS web implementation"
-status = "placeholder"
+status = "planned"
 
 [[repositories]]
 name = "senshac-content"
@@ -21,7 +21,7 @@ status = "active"
 
 [[repositories]]
 name = "senshac-workspace"
-path = "."
+path = "../../senshac-workspace"
 url = "https://github.com/NacoSolutions/senshac-workspace.git"
 role = "workspace registry and operator tooling"
 status = "active"

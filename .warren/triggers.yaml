@@ -1,0 +1,3 @@
+# Scheduled runs are deliberately disabled until a bounded nightly task has
+# an owner, a Seeds record, a cost cap, and an acceptance contract.
+[]

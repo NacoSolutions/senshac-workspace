@@ -1,0 +1,9 @@
+# Senshac workspace Warren defaults.
+# Keep this repository focused on coordination; heavyweight gates belong to the
+# focused repository selected by the seed.
+defaultRole: pi
+defaultProvider: openrouter
+defaultModel: openai/gpt-5.6-luna
+defaultBranch: main
+runBranchPrefix: warren
+qualityGate: ./scripts/workspace-test
