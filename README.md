@@ -11,7 +11,7 @@ Clone the meta-repository beside the focused bare-repository wrappers:
 ```text
 NacoSolutions/
 ├── senshac-workspace/
-├── senshac/
+├── senshac-web/
 ├── senshac-runner/
 └── senshac-media-runner/
 ```
@@ -28,5 +28,7 @@ Use `./scripts/wx <wt-command> --repo <name> [arguments]` only for selecting a
 registered repository before passing arguments directly to Worktrunk. Run
 repository commands through that repository's `dx` or `fx` wrapper.
 
-Canonical Seeds and Terrarium state remains in `senshac-web` until a separate
-tracker migration explicitly changes ownership.
+The archived `senshac` monorepo is no longer a workspace member. During the
+modular transition, workspace-level Seeds/Terrarium coordination is owned by
+this repository; application-specific tracker ownership can move into a
+focused repository once its gates are ready.

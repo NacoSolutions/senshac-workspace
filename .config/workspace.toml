@@ -3,21 +3,28 @@ version = 1
 [workspace]
 name = "senshac-workspace"
 mode = "github"
-canonical_tracker = "senshac-web"
+canonical_tracker = "senshac-workspace"
 
 [[repositories]]
 name = "senshac-web"
-path = "../../senshac"
-url = "https://github.com/NacoSolutions/senshac.git"
-role = "live web implementation"
-status = "active"
+path = "../../senshac-web"
+url = "https://github.com/NacoSolutions/senshac-web.git"
+role = "future Astro/TinaCMS web implementation"
+status = "placeholder"
 
 [[repositories]]
 name = "senshac-content"
 path = "../../senshac-content"
 url = "https://github.com/NacoSolutions/senshac-content.git"
 role = "future Tina content repository"
-status = "planned"
+status = "active"
+
+[[repositories]]
+name = "senshac-workspace"
+path = "."
+url = "https://github.com/NacoSolutions/senshac-workspace.git"
+role = "workspace registry and operator tooling"
+status = "active"
 
 [[repositories]]
 name = "senshac-infra"
