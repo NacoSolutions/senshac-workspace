@@ -11,7 +11,7 @@ Clone the meta-repository beside the focused bare-repository wrappers:
 ```text
 NacoSolutions/
 ├── senshac-workspace/
-├── senshac/
+├── senshac-web/
 ├── senshac-runner/
 └── senshac-media-runner/
 ```
