@@ -7,3 +7,6 @@ test -x "$root/scripts/workspace-status"
 test -x "$root/scripts/wx"
 "$root/scripts/workspace-check"
 "$root/scripts/workspace-status"
+# Seeds and Mulch JSONL rows are rewritten by id; union would duplicate
+# contradictory updates. Register the Warren-compatible three-way driver.
+git -C "$root" config merge.seeds-jsonl.driver "bun $root/scripts/merge-seeds-jsonl.ts %O %A %B"

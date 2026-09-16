@@ -10,7 +10,7 @@ name = "senshac-web"
 path = "../../senshac-web"
 url = "https://github.com/NacoSolutions/senshac-web.git"
 role = "future Astro/TinaCMS web implementation"
-status = "placeholder"
+status = "planned"
 
 [[repositories]]
 name = "senshac-content"
