@@ -42,11 +42,10 @@ and leaves genuine field conflicts for review. `workspace-bootstrap` registers
 the driver locally. YAML configuration and other structured files use ordinary
 reviewable merges.
 
-## Seeds and merge behavior
+## Warren model policy
 
-The tracker was initialized with the pinned repository command `sd init`.
-`.gitattributes` uses `merge=union` only for append-oriented Seeds JSONL files:
-`issues.jsonl`, `plans.jsonl`, and `templates.jsonl`. This reduces avoidable
-conflicts when independent agents append records. YAML configuration and other
-structured files use ordinary reviewable merges; union merging is not a general
-purpose conflict resolver.
+The default Warren model is `openai/gpt-5.6-luna`, selected for routine
+maintenance, triage, and high-volume work. Kimi K3 is an escalation option for
+large refactors, difficult debugging, and long-horizon tasks. Escalation must
+be explicit, tied to a Seeds record, and use a cost cap; it is not the default
+for scheduled runs.

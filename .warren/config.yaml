@@ -3,7 +3,7 @@
 # focused repository selected by the seed.
 defaultRole: pi
 defaultProvider: openrouter
-defaultModel: moonshotai/kimi-k3
+defaultModel: openai/gpt-5.6-luna
 defaultBranch: main
 runBranchPrefix: warren
 qualityGate: ./scripts/workspace-test
