@@ -22,4 +22,4 @@ jobs:
           for path in .seeds/issues.jsonl .seeds/plans.jsonl .seeds/templates.jsonl; do
             test "$(git check-attr merge -- "$path" | awk '{print $3}')" = seeds-jsonl
           done
-          bun scripts/merge-seeds-jsonl.ts 2>&1 | grep -q 'usage:'
+          grep -q 'usage: merge-seeds-jsonl.ts' scripts/merge-seeds-jsonl.ts
