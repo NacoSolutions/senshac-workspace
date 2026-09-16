@@ -11,7 +11,7 @@ Clone the meta-repository beside the focused bare-repository wrappers:
 ```text
 NacoSolutions/
 ├── senshac-workspace/
-├── senshac-web/
+├── senshac/
 ├── senshac-runner/
 └── senshac-media-runner/
 ```
@@ -32,3 +32,21 @@ The archived `senshac` monorepo is no longer a workspace member. During the
 modular transition, workspace-level Seeds/Terrarium coordination is owned by
 this repository; application-specific tracker ownership can move into a
 focused repository once its gates are ready.
+
+## Seeds and merge behavior
+
+The tracker was initialized with the pinned repository command `sd init`.
+`.gitattributes` uses `merge=union` only for append-oriented Seeds JSONL files:
+`issues.jsonl`, `plans.jsonl`, and `templates.jsonl`. This reduces avoidable
+conflicts when independent agents append records. YAML configuration and other
+structured files use ordinary reviewable merges; union merging is not a general
+purpose conflict resolver.
+
+## Seeds and merge behavior
+
+The tracker was initialized with the pinned repository command `sd init`.
+`.gitattributes` uses `merge=union` only for append-oriented Seeds JSONL files:
+`issues.jsonl`, `plans.jsonl`, and `templates.jsonl`. This reduces avoidable
+conflicts when independent agents append records. YAML configuration and other
+structured files use ordinary reviewable merges; union merging is not a general
+purpose conflict resolver.
