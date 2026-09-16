@@ -1,0 +1,1 @@
+{"id":"main-f86f","title":"Coordinate modular Senshac cutover","status":"open","type":"epic","priority":1,"createdAt":"2026-09-16T11:30:13.718Z","updatedAt":"2026-09-16T11:30:13.718Z","description":"Track migration from the archived monorepo to senshac-web, senshac-content, senshac-infra, senshac-runner, and senshac-media-runner."}
