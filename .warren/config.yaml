@@ -1,0 +1,9 @@
+# Senshac workspace Warren defaults.
+# Keep this repository focused on coordination; heavyweight gates belong to the
+# focused repository selected by the seed.
+defaultRole: pi
+defaultProvider: openrouter
+defaultModel: moonshotai/kimi-k3
+defaultBranch: main
+runBranchPrefix: warren
+qualityGate: ./scripts/workspace-test
