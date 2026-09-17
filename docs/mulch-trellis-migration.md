@@ -63,6 +63,31 @@ source prose is not duplicated merely for convenience.
 | Historical `.seeds` rows, closed plans, and deferred decisions | Seed | Preserve through the canonical Seeds history and links. Reopen or create a focused follow-up only for currently actionable work; deferred decisions stay referenced in this manifest until an owner Seed exists. |
 | Legacy `.trellis` plans/specs | Seed or Mulch by content | None were found. If later discovered, classify executable acceptance criteria as owning-repo Seeds and conventions/discoveries as Mulch, retaining the immutable source ref. Never restore old plans to active Trellis state automatically. |
 
+## Ownership matrix and issue intake
+
+The following is the actionable inventory. Only graph-level durable knowledge
+belongs in this coordination repository; implementation details belong in the
+named repository. These are **issue-intake records, not new Seeds**:
+the target repositories are not all mounted in this workspace, so their local
+IDs must be created there and linked back to `senshac-5b4e`. This avoids making
+placeholder IDs or duplicating the same work in six graphs.
+
+| Owner | Durable knowledge to keep | Repository-local Seed to create when actionable | Acceptance evidence / cross-reference |
+| --- | --- | --- | --- |
+| `senshac-workspace` | Registry topology, routing rules, cutover gates, rollback policy, and the archived-source index. | Reconcile the registry's `senshac-web`/`senshac-content` statuses with the documented canonical tracker, then verify every active wrapper with `workspace-test`. | A reviewed `.config/workspace.toml`, successful workspace gate, and links to each child Seed; source is this manifest and archived commit `b46b93362d944dac324797ef8a2c9ca71f9e5173`. |
+| `senshac-web` | No web implementation knowledge is copied here; only the ownership boundary for Astro/Tina routes, rendering, visual behavior, and PageSpeed. | Migrate currently actionable Astro, route, visual, generated-API, and layout `sizes` work from the archived history. | Web-local gate and implementation evidence; link the legacy Seed ID and `senshac-5b4e`. Do not create it here until the registry/cutover evidence permits web ownership. |
+| `senshac-content` | No editorial corpus or Tina records are copied here; only the boundary for editorial JSON/MDX, translations, and owner decisions. | Establish the Tina/content binding, then migrate actionable editorial and translation work. | Content-local validation plus a binding/owner decision; link back to the archived source and `senshac-5b4e`. |
+| `senshac-infra` | Inventory, least-privilege, no-second-deploy-path, secret, and rollback constraints. | Turn each Cloudflare Pages/R2/Workers/DNS/email/IaC change into one reversible infrastructure Seed. | Plan/apply evidence, rollback target, and secret-flow checks; link the relevant archived `infra-inventory` or containment source. |
+| `senshac-runner` | Producer/consumer boundary, immutable image publication, Flox/Act/rootless Podman contract, and digest rollback rule. | Bootstrap and verify the general CI runner image and its publication workflow. | Verified image digest, smoke test, and consumer link; durable contract belongs in runner Mulch, not this manifest. |
+| `senshac-media-runner` | Media mounts, operations, credential boundary, output contract, and producer/consumer split. | Verify image/font/video processing, R2 transfer, and scheduled ingestion as separately scoped work. | Container contract tests, digest and R2 evidence; layout/rendering remains a web Seed. |
+
+The registry currently records `senshac-web` as `planned` and
+`senshac-content` as `active`, while other guidance calls web the current
+canonical implementation. That is an ownership decision, not an observation to
+silently resolve in this migration. The workspace intake above makes the
+reconciliation an explicit Seed and preserves both references until evidence
+changes the registry.
+
 ## Repository-local Mulch bootstrap
 
 The smallest safe bootstrap is deliberately non-invasive: each modular repo
@@ -101,9 +126,10 @@ focused repository. A cross-reference should use this form:
 
 ## Staged rollout and gates
 
-1. **Manifest (this change):** land the classification and immutable source
-   references in `senshac-workspace`; do not move application files or tracker
-   ownership.
+1. **Manifest (this change):** land the classification, ownership matrix, and
+   immutable source references in `senshac-workspace`; do not move application
+   files or tracker ownership. Create the issue-intake items only in their
+   owning repositories, with this manifest as the historical cross-reference.
 2. **Bootstrap:** initialize `.mulch/` in one focused repository at a time,
    beginning with `senshac-runner` or `senshac-media-runner`. Prime, validate,
    and review the first records before adding another repo.
