@@ -36,11 +36,9 @@ focused repository once its gates are ready.
 ## Seeds and merge behavior
 
 The tracker was initialized with the pinned repository command `sd init`.
-`.gitattributes` uses the id-aware `merge=seeds-jsonl` driver for Seeds JSONL
-files. Unlike `merge=union`, it performs a three-way merge of rewritten rows
-and leaves genuine field conflicts for review. `workspace-bootstrap` registers
-the driver locally. YAML configuration and other structured files use ordinary
-reviewable merges.
+`.gitattributes` uses Git's canonical `merge=union` driver for `.seeds/*.jsonl`
+and `.mulch/expertise/*.jsonl` files. YAML configuration and other structured
+files use ordinary reviewable merges.
 
 ## Warren model policy
 
