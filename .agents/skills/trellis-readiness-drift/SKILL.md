@@ -22,3 +22,9 @@ or substitute a moving version.
 
 The workspace's readiness workflow is the reference contract: pinned tooling,
 non-persisting audit, and an explicit drift check.
+
+## Commands and acceptance
+
+Use the repository's pinned `trellis` invocation for `audit <target> --no-persist
+--no-output` and `drift <target>`. Acceptance is both checks recorded, with
+findings fixed or linked to an owning issue.

@@ -24,3 +24,10 @@ description: Deliver a bounded Warren run as a verified, linked pull request.
 
 A successful run is reproducible: another operator can find the issue, inspect
 the commit, rerun the gate, and understand the delivery decision.
+
+## Commands and acceptance
+
+For this workspace, run `./scripts/workspace-test`; use `git diff --check`,
+`git status --short`, and `git log -1 --oneline` before delivery. Acceptance is
+a focused commit, a zero exit gate, and a PR linked to the seed (or an explicit
+host-side delivery handoff).

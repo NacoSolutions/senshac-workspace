@@ -22,3 +22,9 @@ Treat durable expertise as a small, reviewed artifact, not a transcript dump.
 
 When Mulch is unavailable, continue with the repository's documented workflow
 and leave a concise note for the next operator rather than fabricating output.
+
+## Commands and acceptance
+
+Run the configured `mulch prime` and, after delivery, `mulch record` commands.
+Acceptance is guidance read before work, a durable scoped lesson after work,
+and a verified record or an explicit unavailable note.
