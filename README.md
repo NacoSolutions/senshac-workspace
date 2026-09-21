@@ -47,3 +47,20 @@ maintenance, triage, and high-volume work. Kimi K3 is an escalation option for
 large refactors, difficult debugging, and long-horizon tasks. Escalation must
 be explicit, tied to a Seeds record, and use a cost cap; it is not the default
 for scheduled runs.
+
+## Local repository layout
+
+The workspace uses `repos/` as a local-only checkout boundary. Each entry is a
+symlink to an independently tracked repository wrapper beside this workspace;
+the directory is ignored by Git and never becomes a nested monorepo. Populate
+it with sibling wrappers, for example:
+
+```bash
+mkdir -p repos
+ln -sfn ../../senshac-web repos/senshac-web
+ln -sfn ../../senshac-content repos/senshac-content
+```
+
+Use `./scripts/workspace-check` before coordination and
+`./scripts/wx <command> --repo <name>` to dispatch Worktrunk commands to a
+registered repository.
