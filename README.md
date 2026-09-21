@@ -63,3 +63,9 @@ ln -sfn ../../../senshac-content repos/senshac-content
 Use `./scripts/workspace-check` before coordination and
 `./scripts/wx <command> --repo <name>` to dispatch Worktrunk commands to a
 registered repository.
+
+
+`workspace-bootstrap` also creates the local-only `senshac-web/main/senshac-content`
+link when both web and content checkouts are present. This enables local Tina
+editing while keeping the content repository independently tracked; the link is
+recorded in the web worktree's Git exclude file and is absent from commits.
