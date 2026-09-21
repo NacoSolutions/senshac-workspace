@@ -30,8 +30,7 @@ repository commands through that repository's `dx` or `fx` wrapper.
 
 The archived `senshac` monorepo is no longer a workspace member. During the
 modular transition, workspace-level Seeds/Terrarium coordination is owned by
-this repository; application-specific tracker ownership can move into a
-focused repository once its gates are ready.
+this repository; application tasks live in each focused repository’s Seeds store.
 
 ## Seeds and merge behavior
 
@@ -47,3 +46,20 @@ maintenance, triage, and high-volume work. Kimi K3 is an escalation option for
 large refactors, difficult debugging, and long-horizon tasks. Escalation must
 be explicit, tied to a Seeds record, and use a cost cap; it is not the default
 for scheduled runs.
+
+## Local repository layout
+
+The workspace uses `repos/` as a local-only checkout boundary. Each entry is a
+symlink to an independently tracked repository wrapper beside this workspace;
+the directory is ignored by Git and never becomes a nested monorepo. Populate
+it with sibling wrappers, for example:
+
+```bash
+mkdir -p repos
+ln -sfn ../../../senshac-web repos/senshac-web
+ln -sfn ../../../senshac-content repos/senshac-content
+```
+
+Use `./scripts/workspace-check` before coordination and
+`./scripts/wx <command> --repo <name>` to dispatch Worktrunk commands to a
+registered repository.

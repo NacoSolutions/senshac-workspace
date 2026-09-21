@@ -2,3 +2,6 @@
 .env.pages
 .secrets.act
 .direnv/
+
+# Local sibling repository wrappers/checkouts; each remains independently tracked.
+repos/
