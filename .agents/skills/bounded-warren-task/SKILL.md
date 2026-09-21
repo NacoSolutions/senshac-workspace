@@ -13,5 +13,11 @@ Use this skill for focused autonomous changes.
 - After a clean commit and bounded verification, stop and report the commit, checks, and follow-up.
 - Respect the task cost/time cap and escalate a blocker instead of extending the task.
 
+## Commands and acceptance
+
+Run the applicable repository quality gate, then verify `git diff --check`,
+`git status --short`, and `git log -1 --oneline`. Acceptance is a focused
+change, a zero-exit gate, a clean diff, and a committed result.
+
 ## Completion report
 State files changed, commit, gate command/result, and remaining follow-up.
