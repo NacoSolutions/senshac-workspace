@@ -15,3 +15,6 @@ repository and delegate directly to native `wt`, for example
 Routine task selection is `dx tr triage` in the active repository. Use `sd`
 for tracker mutation and integrity debugging. Use `wt` inside the repository
 that owns the selected seed.
+
+## Autonomous-agent guidance
+For focused autonomous changes, follow `.agents/skills/bounded-warren-task/SKILL.md`. Use positive phrasing, specific instructions, defense-in-depth, gentle coding, direct execution, and token economy: state desired outcomes clearly, make the smallest safe change, verify it with a bounded gate, and avoid speculative work.
