@@ -13,7 +13,8 @@
 ## Remaining historical work
 
 - Legacy senshac is archived on GitHub. Its 15 monitoring issues need reconciliation (senshac-workspace-a51d).
-- Legacy local Flox/Seeds/empty Plot experiment is preserved in its named archive stash dated 2026-09-21.
+- Reviewed and discarded both legacy stashes on 2026-09-21: the obsolete monorepo CI-runner prototype (`senshac-50a2-container-switch-wip`) and the Flox/Burrow/Plot trial. Current runner implementation lives in senshac-runner; the Plot trial contained an empty draft and generated index.
+- The discarded trial also contained eight historical tracker additions: six closed migration tasks and two stale open tasks (senshac-1bc7 Seeds initialization and senshac-5b4e knowledge migration). Current web Seeds/Mulch stores and workspace docs/mulch-trellis-migration.md preserve the delivered implementation and migration guidance. These historical additions are not active work queues.
 - Legacy docs/buzz-warren-integration-plan commit remains recoverable; its document now lives here.
 - Legacy worktrees and remote closed/unmerged Warren branches remain for evidence review; they were not treated as merged solely because their PR was closed.
 
