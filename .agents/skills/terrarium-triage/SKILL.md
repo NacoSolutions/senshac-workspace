@@ -23,3 +23,9 @@ description: Triage the canonical Terrarium graph and select one actionable seed
 
 Triage is a routing decision. Implementation and tracker mutation remain
 separate, reviewable steps.
+
+## Commands and acceptance
+
+Run `dx tr triage` in the active repository and use `sd show` for the selected
+seed. Acceptance is one owned, unblocked seed with a visible repository, gate,
+and delivery link plan.

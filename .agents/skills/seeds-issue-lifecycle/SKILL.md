@@ -25,3 +25,9 @@ Use this workflow for every issue mutation:
 
 Keep the audit and the final lifecycle change separate enough that a reviewer
 can see what changed and why.
+
+## Commands and acceptance
+
+Use `sd ready`, `sd show <id>`, and the repository-documented mutation command;
+run `sd sync` only when the local workflow calls for it. Acceptance is a
+truthful owner/status, linked evidence, and a green owning-repository gate.
