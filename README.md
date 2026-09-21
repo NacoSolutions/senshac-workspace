@@ -30,8 +30,7 @@ repository commands through that repository's `dx` or `fx` wrapper.
 
 The archived `senshac` monorepo is no longer a workspace member. During the
 modular transition, workspace-level Seeds/Terrarium coordination is owned by
-this repository; application-specific tracker ownership can move into a
-focused repository once its gates are ready.
+this repository; application tasks live in each focused repository’s Seeds store.
 
 ## Seeds and merge behavior
 
@@ -57,8 +56,8 @@ it with sibling wrappers, for example:
 
 ```bash
 mkdir -p repos
-ln -sfn ../../senshac-web repos/senshac-web
-ln -sfn ../../senshac-content repos/senshac-content
+ln -sfn ../../../senshac-web repos/senshac-web
+ln -sfn ../../../senshac-content repos/senshac-content
 ```
 
 Use `./scripts/workspace-check` before coordination and

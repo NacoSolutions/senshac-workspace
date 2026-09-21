@@ -58,4 +58,14 @@ chmod +x "$tmp/bin/wt"
 PATH="$tmp/bin:$PATH" "$repo_root/scripts/wx" switch --repo web --create feature/example
 diff -u <(printf '%s\n' -C "$tmp/root/web" switch --create feature/example) "$tmp/wt.args"
 
+# Exercise bootstrap against existing wrappers, with links initially absent.
+mkdir -p "$tmp/root/scripts"
+for script in workspace-check workspace-status wx; do
+  ln -s "$repo_root/scripts/$script" "$tmp/root/scripts/$script"
+done
+make_repo content https://example.test/content.git
+sed -i -E 's/path = "([^"]+)"/path = "repos\/\1"/' "$SENSHAC_WORKSPACE_CONFIG"
+SENSHAC_REPOSITORIES_ROOT="$tmp/root" "$repo_root/scripts/workspace-bootstrap" >/dev/null
+SENSHAC_REPOSITORIES_ROOT="$tmp/root" "$repo_root/scripts/workspace-bootstrap" >/dev/null
+test "$(readlink "$tmp/root/repos/web")" = "$tmp/root/web"
 echo "workspace-test: all contracts passed"

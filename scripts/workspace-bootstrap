@@ -5,5 +5,19 @@ test -f "$root/.config/workspace.toml"
 test -x "$root/scripts/workspace-check"
 test -x "$root/scripts/workspace-status"
 test -x "$root/scripts/wx"
+# Resolve existing sibling wrappers without altering their branches or files.
+siblings="${SENSHAC_REPOSITORIES_ROOT:-$(realpath -m "$root/../..")}"
+mkdir -p "$root/repos"
+while IFS= read -r name; do
+  target="$root/repos/$name"
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    continue
+  fi
+  [ -d "$siblings/$name/.git" ] && [ -d "$siblings/$name/main" ] || {
+    echo "workspace-bootstrap: provision sibling wrapper $siblings/$name first" >&2
+    exit 1
+  }
+  ln -s "$siblings/$name" "$target"
+done < <(awk '/^\[\[repositories\]\]$/ { repo=1 } repo && /^name = / { value=$0; sub(/^name = "/, "", value); sub(/"$/, "", value); print value; repo=0 }' "$root/.config/workspace.toml")
 "$root/scripts/workspace-check"
 "$root/scripts/workspace-status"

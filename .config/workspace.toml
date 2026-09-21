@@ -9,14 +9,14 @@ canonical_tracker = "senshac-workspace"
 name = "senshac-web"
 path = "repos/senshac-web"
 url = "https://github.com/NacoSolutions/senshac-web.git"
-role = "future Astro/TinaCMS web implementation"
-status = "planned"
+role = "Astro/TinaCMS web implementation"
+status = "active"
 
 [[repositories]]
 name = "senshac-content"
 path = "repos/senshac-content"
 url = "https://github.com/NacoSolutions/senshac-content.git"
-role = "future Tina content repository"
+role = "Tina content repository"
 status = "active"
 
 [[repositories]]
