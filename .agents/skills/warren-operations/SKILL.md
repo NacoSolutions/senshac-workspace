@@ -5,6 +5,25 @@ description: Dispatch bounded Warren runs with tracker, cost, and delivery evide
 
 # Warren operations
 
+## Dispatch wrapper
+
+Use the workspace wrapper for normal host-side dispatch. It resolves the
+operator token from the local Warren container and uses the Warren CLI, so
+manual HTTP requests are not required:
+
+```bash
+./scripts/warren-run start \
+  --project prj_<repo-project-id> \
+  --agent pi --max-cost-usd 5 \
+  --prompt 'One bounded objective with gate and delivery evidence.'
+./scripts/warren-run show run_<id>
+./scripts/warren-run wait run_<id>
+```
+
+Set `WARREN_API_TOKEN` for a remote-only host, or `WARREN_CLI` when the Warren
+checkout is not at its default path. HTTP remains a protocol-level fallback;
+the wrapper and the previous manual HTTP path call the same Warren API.
+
 1. Start from one open Seeds item with an owner, acceptance criteria, target
    repository, gate, and cost cap.
 2. Use the registered Warren project for that repository. Give the agent one
