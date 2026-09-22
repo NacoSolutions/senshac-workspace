@@ -11,6 +11,10 @@ application implementation. An agent may load the relevant skill by name:
 | `terrarium-triage` | Selecting one bounded seed from the canonical Terrarium graph. |
 | `trellis-readiness-drift` | Running pinned Jayminwest Trellis readiness and drift checks. |
 | `warren-run-pr-delivery` | Turning one bounded Warren run into a tested, committed, linked PR. |
+| `seeds-cli` | Using the installed `seeds` executable for issue lifecycle and evidence. |
+| `mulch-cli` | Using the installed `mulch` executable for expertise lifecycle and validation. |
+| `warren-operations` | Scoping, dispatching, and reviewing Warren runs. |
+| `toolchain-bun-web` | Bun, Tina, Astro, HTMX, Alpine, UnoCSS, and Pages build boundaries. |
 
 ## Repository consumption
 

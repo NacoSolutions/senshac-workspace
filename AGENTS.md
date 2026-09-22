@@ -33,3 +33,12 @@ Use [Bounded Warren Task](.agents/skills/bounded-warren-task/SKILL.md) for focus
 | [Git workflow](.agents/skills/git-workflow/SKILL.md) | Reviewing, staging, committing, and verifying focused changes. |
 
 This repository coordinates workspace integration, Worktrunk delegation, and local development. Keep coordination changes here, and make application changes in the focused repository selected by the seed.
+
+## Portable rules
+
+Load the repository-local rules in `.agents/rules/` before work:
+`caveman.md`, `gentle-coding.md`, `direct-execution.md`,
+`positive-phrasing.md`, `defense-in-depth.md`, `token-economy.md`, and
+`llm-shorthand.md`. Load `instruction-specificity.md` when authoring or
+reviewing agent instructions, skills, or rules. These relative paths work in
+Warren sandboxes and local checkouts.
