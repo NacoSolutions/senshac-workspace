@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+required=(
+  bounded-warren-task
+  git-workflow
+  mulch-cli
+  seeds-cli
+  senshac-agent-principles
+  terrarium-triage
+  warren-operations
+  verification-before-completion
+)
+for skill in "${required[@]}"; do
+  test -s "$root/.agents/skills/$skill/SKILL.md" || {
+    echo "check-agent-toolkit: missing canonical skill: $skill" >&2
+    exit 1
+  }
+done
+test -s "$root/docs/agent-skill-matrix.md"
+grep -q 'Caveman ultra' "$root/docs/agent-skill-matrix.md"
+grep -q 'instruction-specificity' "$root/docs/agent-skill-matrix.md"
+grep -q 'llm-shorthand' "$root/docs/agent-skill-matrix.md"
+echo "check-agent-toolkit: canonical skills and matrix verified"
