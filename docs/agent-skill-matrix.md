@@ -49,6 +49,18 @@ loaded when those files are being authored.
 | Wrangler | `wrangler` with checked-in config | Cloudflare-owned repositories. |
 | GitHub CLI | `gh` with Warren/App auth | GitHub inspection and delivery operations. |
 
+## Wrapper policy
+
+| Wrapper | Scope | Warren use |
+| --- | --- | --- |
+| `scripts/wx` | Workspace operator: routes `wt` to a registered sibling repository. | Use only for cross-repository coordination from `senshac-workspace`; focused runs use their target checkout directly. |
+| `fx` | Local convenience wrapper for Flox activation and package mutation. | Optional; use explicit `flox activate -- <command>` in portable run instructions. |
+| `dx` | Local convenience wrapper for `direnv exec` and repository helper scripts. | Optional; use explicit `direnv exec <repo> <command>` or the repository script. |
+
+Wrappers remain useful for supervised local work. They are convenience
+surfaces, not Warren runtime dependencies. Portable skills name the underlying
+commands so a sandbox with only the declared toolchain behaves predictably.
+
 ## Rollout contract
 
 1. Merge this catalog and canonical skills in the workspace.

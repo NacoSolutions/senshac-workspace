@@ -64,6 +64,10 @@ Use `./scripts/workspace-check` before coordination and
 `./scripts/wx <command> --repo <name>` to dispatch Worktrunk commands to a
 registered repository.
 
+Use `./scripts/warren-run start --project <id> --prompt '<bounded task>'` to
+dispatch a Warren run. The wrapper uses the Warren CLI, resolves the local
+operator token from Podman, and supports `show` and `wait` for run tracking.
+
 
 `workspace-bootstrap` also creates the local-only `senshac-web/main/senshac-content`
 link when both web and content checkouts are present. This enables local Tina

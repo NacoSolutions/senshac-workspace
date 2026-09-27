@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Thin host-side wrapper around the Warren CLI. It keeps operator-token lookup
+# out of prompts and gives every workspace operator the same dispatch path.
+
+usage() {
+	cat <<'EOF'
+Usage:
+  scripts/warren-run start --project ID [--agent pi] [--max-cost-usd N] --prompt TEXT
+  scripts/warren-run show RUN_ID
+  scripts/warren-run wait RUN_ID
+
+Environment:
+  WARREN_BASE_URL       Warren URL (default: https://warren.naco.solutions)
+  WARREN_API_TOKEN      Operator token; otherwise read from warren-naco-app
+  WARREN_CLI             Warren checkout (default: /home/rona/Repositories/.ru/jayminwest/warren)
+EOF
+}
+
+die() { echo "warren-run: $*" >&2; exit 2; }
+
+base_url="${WARREN_BASE_URL:-https://warren.naco.solutions}"
+warren_dir="${WARREN_CLI:-/home/rona/Repositories/.ru/jayminwest/warren}"
+token="${WARREN_API_TOKEN:-}"
+
+[[ -d "$warren_dir" ]] || die "Warren checkout not found: $warren_dir (set WARREN_CLI)"
+if [[ -z "$token" ]] && command -v podman >/dev/null 2>&1; then
+	token="$(podman exec warren-naco-app sh -lc 'cat /data/operator-token' 2>/dev/null || true)"
+fi
+[[ -n "$token" ]] || die "set WARREN_API_TOKEN or run the local Warren container"
+
+run_cli() {
+	(
+		cd "$warren_dir"
+		WARREN_BASE_URL="$base_url" WARREN_API_TOKEN="$token" \
+			bun src/cli/main.ts "$@"
+	)
+}
+
+command="${1:-}"
+shift || true
+
+case "$command" in
+	start)
+		agent=pi
+		project=""
+		max_cost=5
+		prompt=""
+		while (($#)); do
+			case "$1" in
+				--agent) agent="${2:?missing value for --agent}"; shift 2 ;;
+				--project) project="${2:?missing value for --project}"; shift 2 ;;
+				--max-cost-usd) max_cost="${2:?missing value for --max-cost-usd}"; shift 2 ;;
+				--prompt) prompt="${2:?missing value for --prompt}"; shift 2 ;;
+				-h|--help) usage; exit 0 ;;
+				*) die "unknown start option: $1" ;;
+			esac
+		done
+		[[ -n "$project" ]] || die "--project is required"
+		[[ -n "$prompt" ]] || die "--prompt is required"
+		run_cli run "$agent" "$project" --max-cost-usd "$max_cost" --prompt "$prompt"
+		;;
+	show|wait)
+		run_id="${1:-}"
+		[[ -n "$run_id" ]] || die "$command requires RUN_ID"
+		[[ $# -eq 1 ]] || die "$command accepts exactly one RUN_ID"
+		run_cli --output pretty "$command" "$run_id"
+		;;
+	-h|--help|"") usage ;;
+	*) die "unknown command: $command" ;;
+esac
