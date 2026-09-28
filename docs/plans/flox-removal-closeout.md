@@ -46,7 +46,11 @@ intact.
   PR #20 pins the processing workflow to that digest. The local Nix image
   passed rootless Podman smoke and an Act dry-run that produced and verified 14
   files. The exact registry artifact was also pulled and smoke-tested by the
-  publisher workflow.
+  publisher workflow. A later exact-image GitHub workflow dispatch (`36467036659`)
+  exposed that UID 1000 could not write the runner-managed `$GITHUB_ENV` file.
+  PR #21 (`b2a54201`) removed the redundant dry-run override; dispatch
+  `36467475795` then passed fixture creation, object processing, and verification
+  of all 14 outputs against the pinned GHCR digest, with R2 steps skipped.
 - `senshac-workspace` guidance and its portable-toolkit Seed already state the
   devenv/Nix/dockerTools model. The Seed remains open because it covers the
   broader cross-repository toolkit acceptance, not only this migration.
@@ -66,7 +70,9 @@ intact.
   history.
 - The runner OCI closure check mentions Flox only to reject its presence.
 - Closed Seeds and archived Mulch entries remain historical evidence.
-- The archived `senshac` repository was not modified.
+- The archived `senshac` repository was not modified; its historical `.flox`
+  tree remains intact. The migration scope covers the six active `senshac-*`
+  repos, not the frozen legacy monorepo.
 
 ## Verification commands
 
