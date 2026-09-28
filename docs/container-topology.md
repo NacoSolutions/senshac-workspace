@@ -2,16 +2,18 @@
 
 Seed: `senshac-8d1f`
 
-Container-producing repositories own their image source, Flox environment,
-security updates, publication workflow, and release evidence. Application
-repositories consume verified immutable digests in GitHub Actions and local
-rootless Act.
+Container-producing repositories own their image source, security updates,
+publication workflow, and release evidence. Developer shells use devenv;
+`senshac-runner` builds its rootless/distroless OCI image directly with Nix
+flakes and `dockerTools`. Runtime images contain neither Flox nor devenv.
+Application repositories consume verified immutable digests in GitHub Actions
+and local rootless Act; devenv plus Act dogfoods the produced image.
 
 ## Producers
 
 | Repository | Image | Duty | State |
 | --- | --- | --- | --- |
-| `NacoSolutions/senshac-runner` | `ghcr.io/nacosolutions/senshac-runner` | Bun, Astro, Flox, Act, checks, and general CI runtime. | Active |
+| `NacoSolutions/senshac-runner` | `ghcr.io/nacosolutions/senshac-runner` | Nix/dockerTools rootless/distroless image; developer shell via devenv; Bun, Act, checks, and general CI runtime. | Active |
 | `NacoSolutions/senshac-media-runner` | `ghcr.io/nacosolutions/senshac-media-processor` | Sharp, ffmpeg, font processing, R2 transfer, and media verification. | Active |
 
 Repository and package names should stay aligned when ownership permits it. The

@@ -37,7 +37,7 @@ status = "active"
 name = "senshac-runner"
 path = "repos/senshac-runner"
 url = "https://github.com/NacoSolutions/senshac-runner.git"
-role = "Flox and CI runner"
+role = "devenv developer shell and Nix dockerTools CI runner image"
 status = "active"
 
 [[repositories]]

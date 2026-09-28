@@ -28,7 +28,8 @@ keep their own commands, gates, and implementation details:
   Warren delivery for the web implementation.
 - **`senshac-infra`** uses issue lifecycle and Warren delivery for Cloudflare
   infrastructure, with its own infrastructure gate and ownership boundaries.
-- **`senshac-runner`** uses Mulch and Warren delivery for Flox/CI runner images;
+- **`senshac-runner`** uses Mulch and Warren delivery for devenv developer
+  tooling and Nix/dockerTools CI runner images;
   image publication and digest evidence remain its responsibility.
 - **`senshac-media-runner`** uses Mulch and Warren delivery for media processing
   and its container contract; credentials and R2 operations remain runtime

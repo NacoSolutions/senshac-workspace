@@ -26,7 +26,8 @@ origin declared in `.config/workspace.toml`. Then verify the workspace:
 
 Use `./scripts/wx <wt-command> --repo <name> [arguments]` only for selecting a
 registered repository before passing arguments directly to Worktrunk. Run
-repository commands through that repository's `dx` or `fx` wrapper.
+repository commands through that repository's `dx` wrapper, or through its
+`devenv` shell when it declares `devenv.nix`.
 
 The archived `senshac` monorepo is no longer a workspace member. During the
 modular transition, workspace-level Seeds/Terrarium coordination is owned by
