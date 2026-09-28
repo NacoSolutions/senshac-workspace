@@ -55,21 +55,23 @@ layer.
 The web repository pins its validated runner:
 
 ```text
-ghcr.io/nacosolutions/senshac-runner@sha256:e090a4d4aabe4573839584394f501c73a87ed36172690ca56a9a6f9edafa3f63
+ghcr.io/nacosolutions/senshac-runner@sha256:69906cef37c3d9eb53638aca5af1024bbb46785f49569155d6b28c2fe3d6bb57
 ```
 
 Local Act uses the same reference:
 
 ```bash
-SENSHAC_RUNNER_IMAGE='ghcr.io/nacosolutions/senshac-runner@sha256:<digest>' \
-  dx bun run test:workflow:ci
+cd /path/to/senshac-runner
+CI_RUNNER_IMAGE='ghcr.io/nacosolutions/senshac-runner@sha256:69906cef37c3d9eb53638aca5af1024bbb46785f49569155d6b28c2fe3d6bb57' \
+  devenv shell -- scripts/act-ci /path/to/senshac-web
 ```
 
 An uncommitted local candidate may be selected explicitly:
 
 ```bash
-SENSHAC_RUNNER_IMAGE=localhost/senshac-runner:candidate \
-  dx bun run test:workflow:ci
+cd /path/to/senshac-runner
+CI_RUNNER_IMAGE=localhost/senshac-runner:candidate \
+  devenv shell -- scripts/act-ci /path/to/senshac-web
 ```
 
 Candidate overrides are acceptance inputs, not checked-in CI defaults.
