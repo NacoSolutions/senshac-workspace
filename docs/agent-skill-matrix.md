@@ -33,7 +33,7 @@ loaded when those files are being authored.
 | `senshac-web` | Bun/web toolchain, Tina/Astro/Cloudflare, web performance, dependency hygiene, security. |
 | `senshac-content` | Tina content migration, Bun/content validation, writing docs, security. |
 | `senshac-infra` | Cloudflare/Wrangler, Warren deployment, Podman/Caddy/Tailscale, security. |
-| `senshac-runner` | Bun, Flox, rootless Podman, Act, image publication, dependency hygiene. |
+| `senshac-runner` | Bun, devenv developer shell, Nix/dockerTools image builds, rootless Podman, Act, image publication, dependency hygiene. |
 | `senshac-media-runner` | Bun, media/container contract, R2 transfer, image publication, security. |
 
 ## Tool ownership
@@ -54,7 +54,7 @@ loaded when those files are being authored.
 | Wrapper | Scope | Warren use |
 | --- | --- | --- |
 | `scripts/wx` | Workspace operator: routes `wt` to a registered sibling repository. | Use only for cross-repository coordination from `senshac-workspace`; focused runs use their target checkout directly. |
-| `fx` | Local convenience wrapper for Flox activation and package mutation. | Optional; use explicit `flox activate -- <command>` in portable run instructions. |
+| `devenv` | Project developer shell declared by `devenv.nix` and pinned by its Nix inputs. | Run commands with `devenv shell -- <command>`; use Nix flakes and `dockerTools` for OCI images. |
 | `dx` | Local convenience wrapper for `direnv exec` and repository helper scripts. | Optional; use explicit `direnv exec <repo> <command>` or the repository script. |
 
 Wrappers remain useful for supervised local work. They are convenience
