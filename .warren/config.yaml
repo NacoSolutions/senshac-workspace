@@ -2,8 +2,6 @@
 # Keep this repository focused on coordination; heavyweight gates belong to the
 # focused repository selected by the seed.
 defaultRole: pi
-defaultProvider: openrouter
-defaultModel: openai/gpt-6-luna:floor:low
 defaultBranch: main
 runBranchPrefix: warren
 qualityGate: ./scripts/workspace-test
