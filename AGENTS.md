@@ -28,7 +28,9 @@ Use [Bounded Warren Task](.agents/skills/bounded-warren-task/SKILL.md) for focus
 | [Seeds issue lifecycle](.agents/skills/seeds-issue-lifecycle/SKILL.md) | Auditing, advancing, or closing a Seeds issue. |
 | [Mulch prime record](.agents/skills/mulch-prime-record/SKILL.md) | Priming repository expertise or recording a reusable lesson. |
 | [Terrarium triage](.agents/skills/terrarium-triage/SKILL.md) | Selecting the next actionable seed from the canonical graph. |
+| [Bun and web toolchain](.agents/skills/toolchain-bun-web/SKILL.md) | Applying the pinned Bun and generated-output contract where workspace tooling uses it. |
 | [Trellis readiness drift](.agents/skills/trellis-readiness-drift/SKILL.md) | Checking pinned Trellis readiness or canonical drift before delivery. |
+| [Modular cutover](.agents/skills/modular-cutover/SKILL.md) | Coordinating migration acceptance while preserving repository and production-approval boundaries. |
 | [Warren run PR delivery](.agents/skills/warren-run-pr-delivery/SKILL.md) | Delivering a bounded run through gate, commit, and PR evidence. |
 | [Git workflow](.agents/skills/git-workflow/SKILL.md) | Reviewing, staging, committing, and verifying focused changes. |
 

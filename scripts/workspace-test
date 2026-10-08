@@ -5,7 +5,6 @@ repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
-"$repo_root/scripts/check-agent-toolkit" >/dev/null
 mkdir -p "$tmp/root/.config" "$tmp/bin"
 
 make_repo() {
@@ -16,58 +15,126 @@ make_repo() {
   git -C "$tmp/root/$name/main" remote add origin "$url"
 }
 
-make_repo web https://example.test/web.git
-make_repo runner https://example.test/runner.git
-cat > "$tmp/root/.config/workspace.toml" <<'EOF'
+copy_toolkit() {
+  local repo="$1"
+  local role="$2"
+  local skill rule
+  local role_skills=()
+  case "$role" in
+    senshac-web)
+      role_skills=(dependency-hygiene security-review tina-astro-cloudflare toolchain-bun-web web-performance)
+      ;;
+    senshac-runner)
+      role_skills=(dependency-hygiene managing-environments)
+      ;;
+    *)
+      echo "workspace-test: unsupported fixture role: $role" >&2
+      exit 1
+      ;;
+  esac
+  for skill in bounded-warren-task git-workflow mulch-cli seeds-cli senshac-agent-principles terrarium-triage warren-operations verification-before-completion "${role_skills[@]}"; do
+    mkdir -p "$repo/.agents/skills/$skill"
+    if [[ -s "$repo_root/.agents/skills/$skill/SKILL.md" ]]; then
+      cp "$repo_root/.agents/skills/$skill/SKILL.md" "$repo/.agents/skills/$skill/SKILL.md"
+    else
+      printf '# Fixture %s skill\n' "$skill" > "$repo/.agents/skills/$skill/SKILL.md"
+    fi
+  done
+  mkdir -p "$repo/.agents/rules"
+  for rule in caveman.md positive-phrasing.md direct-execution.md defense-in-depth.md gentle-coding.md instruction-specificity.md token-economy.md llm-shorthand.md; do
+    cp "$repo_root/.agents/rules/$rule" "$repo/.agents/rules/$rule"
+  done
+  {
+    for skill in git-workflow terrarium-triage "${role_skills[@]}"; do
+      printf '[%s](.agents/skills/%s/SKILL.md)\n' "$skill" "$skill"
+    done
+  } > "$repo/AGENTS.md"
+}
+
+make_repo senshac-web https://example.test/web.git
+make_repo senshac-runner https://example.test/runner.git
+copy_toolkit "$tmp/root/senshac-web/main" senshac-web
+copy_toolkit "$tmp/root/senshac-runner/main" senshac-runner
+cat > "$tmp/root/.config/workspace.toml" <<'REGISTRY'
 [[repositories]]
-name = "web"
-path = "web"
+name = "senshac-web"
+path = "senshac-web"
 url = "https://example.test/web.git"
 status = "active"
 
 [[repositories]]
-name = "content"
-path = "content"
+name = "senshac-content"
+path = "senshac-content"
 url = "https://example.test/content.git"
 status = "planned"
 
 [[repositories]]
-name = "runner"
-path = "runner"
+name = "senshac-runner"
+path = "senshac-runner"
 url = "https://example.test/runner.git"
 status = "active"
-EOF
+REGISTRY
 
 export SENSHAC_WORKSPACE_ROOT="$tmp/root"
 export SENSHAC_WORKSPACE_CONFIG="$tmp/root/.config/workspace.toml"
 check_output="$("$repo_root/scripts/workspace-check")"
 grep -q '2 active repositories verified' <<<"$check_output"
 status_output="$("$repo_root/scripts/workspace-status")"
-grep -q 'content.*planned.*missing' <<<"$status_output"
+grep -q 'senshac-content.*planned.*missing' <<<"$status_output"
+"$repo_root/scripts/check-agent-toolkit" --repositories-root "$tmp/root" --strict >/dev/null
 
-sed -i 's/status = "planned"/status = "active"/' "$SENSHAC_WORKSPACE_CONFIG"
+rm "$tmp/root/senshac-runner/main/.agents/skills/terrarium-triage/SKILL.md"
+if "$repo_root/scripts/check-agent-toolkit" --repositories-root "$tmp/root" --strict >/dev/null 2>&1; then
+  echo "workspace-test: missing portable skill was accepted" >&2
+  exit 1
+fi
+copy_toolkit "$tmp/root/senshac-runner/main" senshac-runner
+rm "$tmp/root/senshac-web/main/.agents/rules/caveman.md"
+if "$repo_root/scripts/check-agent-toolkit" --repositories-root "$tmp/root" --strict >/dev/null 2>&1; then
+  echo "workspace-test: missing portable rule was accepted" >&2
+  exit 1
+fi
+copy_toolkit "$tmp/root/senshac-web/main" senshac-web
+rm "$tmp/root/senshac-web/main/.agents/skills/web-performance/SKILL.md"
+if "$repo_root/scripts/check-agent-toolkit" --repositories-root "$tmp/root" --strict >/dev/null 2>&1; then
+  echo "workspace-test: missing role skill was accepted" >&2
+  exit 1
+fi
+copy_toolkit "$tmp/root/senshac-web/main" senshac-web
+sed -i '/web-performance/d' "$tmp/root/senshac-web/main/AGENTS.md"
+if "$repo_root/scripts/check-agent-toolkit" --repositories-root "$tmp/root" --strict >/dev/null 2>&1; then
+  echo "workspace-test: unlinked role skill was accepted" >&2
+  exit 1
+fi
+copy_toolkit "$tmp/root/senshac-web/main" senshac-web
+
+sed -i '/name = "senshac-content"/,/status = / s/status = "planned"/status = "active"/' "$SENSHAC_WORKSPACE_CONFIG"
 if "$repo_root/scripts/workspace-check" >/dev/null 2>&1; then
   echo "workspace-test: missing active repository was accepted" >&2
   exit 1
 fi
-sed -i '0,/status = "active"/! s/status = "active"/status = "planned"/' "$SENSHAC_WORKSPACE_CONFIG"
+if "$repo_root/scripts/check-agent-toolkit" --repositories-root "$tmp/root" --strict >/dev/null 2>&1; then
+  echo "workspace-test: incomplete active toolkit registry was accepted" >&2
+  exit 1
+fi
+sed -i '/name = "senshac-content"/,/status = / s/status = "active"/status = "planned"/' "$SENSHAC_WORKSPACE_CONFIG"
 
-cat > "$tmp/bin/wt" <<EOF
+cat > "$tmp/bin/wt" <<WRAPPER
 #!/usr/bin/env bash
 printf '%s\\n' "\$@" > "$tmp/wt.args"
-EOF
+WRAPPER
 chmod +x "$tmp/bin/wt"
-PATH="$tmp/bin:$PATH" "$repo_root/scripts/wx" switch --repo web --create feature/example
-diff -u <(printf '%s\n' -C "$tmp/root/web" switch --create feature/example) "$tmp/wt.args"
+PATH="$tmp/bin:$PATH" "$repo_root/scripts/wx" switch --repo senshac-web --create feature/example
+diff -u <(printf '%s\n' -C "$tmp/root/senshac-web" switch --create feature/example) "$tmp/wt.args"
 
 # Exercise bootstrap against existing wrappers, with links initially absent.
 mkdir -p "$tmp/root/scripts"
 for script in workspace-check workspace-status wx; do
   ln -s "$repo_root/scripts/$script" "$tmp/root/scripts/$script"
 done
-make_repo content https://example.test/content.git
+make_repo senshac-content https://example.test/content.git
 sed -i -E 's/path = "([^"]+)"/path = "repos\/\1"/' "$SENSHAC_WORKSPACE_CONFIG"
 SENSHAC_REPOSITORIES_ROOT="$tmp/root" "$repo_root/scripts/workspace-bootstrap" >/dev/null
 SENSHAC_REPOSITORIES_ROOT="$tmp/root" "$repo_root/scripts/workspace-bootstrap" >/dev/null
-test "$(readlink "$tmp/root/repos/web")" = "$tmp/root/web"
+test "$(readlink "$tmp/root/repos/senshac-web")" = "$tmp/root/senshac-web"
 echo "workspace-test: all contracts passed"

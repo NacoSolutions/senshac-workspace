@@ -24,7 +24,7 @@ web_main="$root/repos/senshac-web/main"
 content_main="$root/repos/senshac-content/main"
 if [ -d "$web_main" ] && [ -d "$content_main" ]; then
   ln -sfn "../../senshac-content/main" "$web_main/senshac-content"
-  exclude="$(git -C "$web_main" rev-parse --git-path info/exclude)"
+  exclude="$(git -C "$web_main" rev-parse --path-format=absolute --git-path info/exclude)"
   grep -qxF "senshac-content" "$exclude" 2>/dev/null || printf '%s\n' "senshac-content" >> "$exclude"
 fi
 "$root/scripts/workspace-check"
