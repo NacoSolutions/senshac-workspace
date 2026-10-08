@@ -2,7 +2,38 @@
 set -euo pipefail
 
 root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-required=(
+workspace_root="${SENSHAC_WORKSPACE_ROOT:-$root}"
+config="${SENSHAC_WORKSPACE_CONFIG:-$workspace_root/.config/workspace.toml}"
+repositories_root=""
+strict=0
+
+usage() {
+  echo "Usage: check-agent-toolkit [--repositories-root PATH] [--strict]" >&2
+}
+while (($#)); do
+  case "$1" in
+    --repositories-root)
+      (($# >= 2)) || { usage; exit 2; }
+      repositories_root="$2"
+      shift 2
+      ;;
+    --strict)
+      strict=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      usage
+      echo "check-agent-toolkit: unknown option: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
+required_skills=(
   bounded-warren-task
   git-workflow
   mulch-cli
@@ -12,14 +43,155 @@ required=(
   warren-operations
   verification-before-completion
 )
-for skill in "${required[@]}"; do
-  test -s "$root/.agents/skills/$skill/SKILL.md" || {
-    echo "check-agent-toolkit: missing canonical skill: $skill" >&2
+required_rules=(
+  caveman.md
+  positive-phrasing.md
+  direct-execution.md
+  defense-in-depth.md
+  gentle-coding.md
+  instruction-specificity.md
+  token-economy.md
+  llm-shorthand.md
+)
+role_skills=()
+
+get_role_skills() {
+  case "$1" in
+    senshac-workspace)
+      role_skills=(modular-cutover mulch-prime-record seeds-issue-lifecycle toolchain-bun-web trellis-readiness-drift warren-run-pr-delivery)
+      ;;
+    senshac-web)
+      role_skills=(dependency-hygiene security-review tina-astro-cloudflare toolchain-bun-web web-performance)
+      ;;
+    senshac-content)
+      role_skills=(security-review tina-content-migration toolchain-bun-web writing-docs)
+      ;;
+    senshac-infra)
+      role_skills=(cloudflare-operations security-review)
+      ;;
+    senshac-runner)
+      role_skills=(dependency-hygiene managing-environments)
+      ;;
+    senshac-media-runner)
+      role_skills=(dependency-hygiene media-runner-operations security-review)
+      ;;
+    *)
+      echo "check-agent-toolkit: no role bundle defined for active repository: $1" >&2
+      return 1
+      ;;
+  esac
+}
+
+check_repository() {
+  local repo_root="$1"
+  local label="$2"
+  local skill rule file
+  for skill in "${required_skills[@]}"; do
+    file="$repo_root/.agents/skills/$skill/SKILL.md"
+    [[ -s "$file" && ! -L "$file" ]] || {
+      echo "check-agent-toolkit: $label missing regular portable skill: $skill" >&2
+      return 1
+    }
+  done
+  for rule in "${required_rules[@]}"; do
+    file="$repo_root/.agents/rules/$rule"
+    [[ -s "$file" && ! -L "$file" ]] || {
+      echo "check-agent-toolkit: $label missing regular portable rule: $rule" >&2
+      return 1
+    }
+  done
+  for skill in git-workflow terrarium-triage; do
+    grep -Fq ".agents/skills/$skill/SKILL.md" "$repo_root/AGENTS.md" || {
+      echo "check-agent-toolkit: $label AGENTS.md does not link baseline skill: $skill" >&2
+      return 1
+    }
+  done
+  get_role_skills "$label"
+  for skill in "${role_skills[@]}"; do
+    file="$repo_root/.agents/skills/$skill/SKILL.md"
+    [[ -s "$file" && ! -L "$file" ]] || {
+      echo "check-agent-toolkit: $label missing regular role skill: $skill" >&2
+      return 1
+    }
+    grep -Fq "\`$skill\`" "$root/docs/agent-skill-matrix.md" || {
+      echo "check-agent-toolkit: matrix omits role skill: $skill" >&2
+      return 1
+    }
+    grep -Fq ".agents/skills/$skill/SKILL.md" "$repo_root/AGENTS.md" || {
+      echo "check-agent-toolkit: $label AGENTS.md does not link role skill: $skill" >&2
+      return 1
+    }
+  done
+}
+
+for needle in 'Caveman ultra' 'instruction-specificity' 'llm-shorthand'; do
+  grep -q "$needle" "$root/docs/agent-skill-matrix.md" || {
+    echo "check-agent-toolkit: matrix missing required guidance: $needle" >&2
     exit 1
   }
 done
-test -s "$root/docs/agent-skill-matrix.md"
-grep -q 'Caveman ultra' "$root/docs/agent-skill-matrix.md"
-grep -q 'instruction-specificity' "$root/docs/agent-skill-matrix.md"
-grep -q 'llm-shorthand' "$root/docs/agent-skill-matrix.md"
-echo "check-agent-toolkit: canonical skills and matrix verified"
+for skill in "${required_skills[@]}"; do
+  grep -Fq "\`$skill\`" "$root/docs/agent-skill-matrix.md" || {
+    echo "check-agent-toolkit: matrix omits baseline skill: $skill" >&2
+    exit 1
+  }
+done
+check_repository "$root" "senshac-workspace"
+[[ -s "$config" ]] || {
+  echo "check-agent-toolkit: workspace registry missing: $config" >&2
+  exit 1
+}
+
+if [[ -n "$repositories_root" ]]; then
+  workspace_root="$(cd -- "$repositories_root" && pwd)"
+  config="$workspace_root/.config/workspace.toml"
+fi
+
+active=0
+available=0
+missing=()
+while IFS=$'\t' read -r name path status; do
+  [[ -n "$name" ]] || continue
+  case "$status" in
+    active)
+      active=$((active + 1))
+      wrapper="$(realpath -m "$workspace_root/$path")"
+      repo_root="$wrapper/main"
+      if [[ -d "$repo_root" ]]; then
+        available=$((available + 1))
+        check_repository "$repo_root" "$name"
+      else
+        missing+=("$name ($repo_root)")
+      fi
+      ;;
+    planned) ;;
+    *)
+      echo "check-agent-toolkit: invalid repository status '$status' for $name" >&2
+      exit 1
+      ;;
+  esac
+done < <(awk '
+  /^\[\[repositories\]\]$/ {
+    if (in_repo && name != "") print name "\t" path "\t" status
+    name=""; path=""; status=""; in_repo=1; next
+  }
+  in_repo && /^name = / { name=$0; sub(/^name = "/, "", name); sub(/"$/, "", name) }
+  in_repo && /^path = / { path=$0; sub(/^path = "/, "", path); sub(/"$/, "", path) }
+  in_repo && /^status = / { status=$0; sub(/^status = "/, "", status); sub(/"$/, "", status) }
+  END { if (in_repo && name != "") print name "\t" path "\t" status }
+' "$config")
+
+((active > 0)) || {
+  echo "check-agent-toolkit: registry has no active repositories" >&2
+  exit 1
+}
+if ((available == 0 && strict == 0)); then
+  echo "check-agent-toolkit: canonical toolkit verified; sibling check skipped (no active main worktrees)"
+  exit 0
+fi
+if ((available != active)); then
+  printf 'check-agent-toolkit: expected %d active worktrees, found %d; missing: %s\n' \
+    "$active" "$available" "${missing[*]}" >&2
+  exit 1
+fi
+printf 'check-agent-toolkit: canonical toolkit, portable baseline, and %d active role bundles verified\n' "$active"

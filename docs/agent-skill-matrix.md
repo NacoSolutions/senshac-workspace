@@ -29,12 +29,12 @@ loaded when those files are being authored.
 
 | Repository | Additional skills |
 | --- | --- |
-| `senshac-workspace` | `trellis-readiness-drift`, `modular-cutover`, workspace contracts. |
-| `senshac-web` | Bun/web toolchain, Tina/Astro/Cloudflare, web performance, dependency hygiene, security. |
-| `senshac-content` | Tina content migration, Bun/content validation, writing docs, security. |
-| `senshac-infra` | Cloudflare/Wrangler, Warren deployment, Podman/Caddy/Tailscale, security. |
-| `senshac-runner` | Bun, devenv developer shell, Nix/dockerTools image builds, rootless Podman, Act, image publication, dependency hygiene. |
-| `senshac-media-runner` | Bun, media/container contract, R2 transfer, image publication, security. |
+| `senshac-workspace` | `trellis-readiness-drift`, `modular-cutover`, `seeds-issue-lifecycle`, `mulch-prime-record`, `warren-run-pr-delivery`, `toolchain-bun-web`. |
+| `senshac-web` | `toolchain-bun-web` (Bun, Astro, HTMX, Alpine, UnoCSS), `tina-astro-cloudflare`, `web-performance`, `dependency-hygiene`, `security-review`. |
+| `senshac-content` | `tina-content-migration`, `toolchain-bun-web` (content validation), `writing-docs`, `security-review`. |
+| `senshac-infra` | `cloudflare-operations` (Cloudflare/Wrangler, R2, Podman/Caddy/Tailscale), `security-review`. |
+| `senshac-runner` | `managing-environments` (devenv, Nix/dockerTools, rootless Podman, Act, image contract), `dependency-hygiene`. |
+| `senshac-media-runner` | `media-runner-operations` (rootless media/container contract, R2 transfer, image publication), `dependency-hygiene`, `security-review`. |
 
 ## Tool ownership
 
@@ -67,5 +67,11 @@ commands so a sandbox with only the declared toolchain behaves predictably.
 2. Copy the baseline plus each repository's role bundle into that repository.
 3. Run that repository's gate and `seeds doctor`/`mulch validate` where its
    tracker files exist.
-4. Keep the copies synchronized through a reviewable update or drift check;
-   never symlink them in CI and never copy local secrets or session state.
+4. Run `scripts/check-agent-toolkit` to verify the selected baseline and role
+   skills plus portable rules exist as regular files in all available active
+   repository worktrees. Use `--strict` for complete multi-repository checks;
+   workspace CI without sibling worktrees verifies the canonical catalog, while
+   `scripts/workspace-test` exercises strict success and failure cases.
+5. Keep repository-tailored skill copies reviewable; validation checks presence,
+   not byte identity. Never symlink toolkit files in CI or copy local secrets
+   and session state.
