@@ -22,7 +22,7 @@ Open Seeds are summarized below. Use `seeds show <id>` in the owning repo for fu
 - Runner: `9ae7` missing constitution; `ratchetwatch-1791090224` missing ratchets.
 - Media-runner: `83ab` missing constitution; `b59d` tastewatch digest.
 
-Mulch validation passed in all six repositories, with stale-record warnings summarized above. Workspace Engram's last available audit showed 281 observations; no child-repository Engram project data was registered then. Current session writes remain blocked until the host registers its runtime identity, so this audit made no Engram writes.
+Mulch validation passed in all six repositories, with stale-record warnings summarized above. Workspace Engram's last available audit showed 281 observations; no child-repository Engram project data was registered then. Agent-attributed Engram writes remain blocked until the host registers its runtime identity. One explicit CLI/manual project observation (`#1577`) records this cleanup snapshot without session attribution; it does not register the runtime.
 
 ## Local branch and checkpoint state
 
