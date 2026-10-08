@@ -5,3 +5,5 @@
 
 # Local sibling repository wrappers/checkouts; each remains independently tracked.
 repos/
+.devenv/
+.engram/
