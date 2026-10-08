@@ -1,13 +1,16 @@
 # Local WIP checkpoint reconciliation — 2026-10-08
 
 This audit compares the six preserved local `wip/pre-main-cleanup-20261008`
-branches with the current local `main` refs, which were aligned with
-`origin/main`. It is a review aid, **not owner approval**. No checkpoint was
-merged, rewritten, pushed, or deleted.
+branches with the `main` refs fetched from `origin/main` at audit time. The
+report itself later merged as workspace PR #43, advancing workspace `main`
+from `b17ce66` to `b792425`; that documentation/Seed update did not alter any
+checkpoint or focused-repository main ref. All six main worktrees are currently
+clean and aligned with their respective `origin/main`. This is a review aid,
+**not owner approval**. No checkpoint was merged, rewritten, pushed, or deleted.
 
 ## Snapshot
 
-| Repository | Current `main` | Preserved checkpoint | Commits ahead of `main` | Review summary |
+| Repository | `main` at audit | Preserved checkpoint | Commits ahead of `main` at audit | Review summary |
 | --- | --- | --- | ---: | --- |
 | `senshac-workspace` | `b17ce66` | `48ffed3` | 3 | Contains stale Seeds/status snapshots, new `devenv.nix`/`devenv.yaml`, an unreviewed Warren automation/config change, and a Warren Constitution draft with unverified external provenance. Keep for owner review; do not merge as a snapshot. |
 | `senshac-web` | `f300d4b` | `55e855a` | 2 | Precedes the merged inquiry/page-chrome implementation and hardening (PRs #138–#142); ignore rules and tracked `devenv.lock` are already canonical. It also has a superseded per-repo pinned image override and removes the old documentationwatch trigger. Recommend archive only after owner confirms no unique work remains. |
