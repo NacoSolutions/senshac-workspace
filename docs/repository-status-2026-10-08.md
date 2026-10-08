@@ -39,6 +39,8 @@ All six `main` branches are clean and match their current `origin/main` tips. A 
 
 The Constitution draft carries provenance and metrics from outside these repositories; verify or replace that material before proposing it. Two web branches also remain because they contain an extra unmerged Warren config commit beyond their merged PRs. Active Tina worktrees remain preserved. Sixteen merged local branch refs and stale remote-tracking refs were cleaned; no remote branches were changed.
 
+WEB-1 implementation appears substantially delivered after the local plan was authored: web PR #138 (`feat(inquiry): add adaptive situation and service flow`) and content PR #45 (`feat(content): add adaptive service inquiry routing`) are merged. GitHub reports PR #138 contract/readiness checks successful. Current web code renders both editable selectors in `src/components/ContactForm.astro` and validates situation/service pairs in `src/utils/inquiry-contract.mjs`; current content carries localized home/service preselection links and routing tests. The old workspace plan is still only on the local checkpoint. Rerun the remaining local integration/disclosure acceptance checks, then restore it to canonical Seeds with evidence or close it as superseded; avoid reimplementing already-merged work.
+
 `.engram/` is locally excluded in each repository. Ignore rules and the web lockfile are preserved on the checkpoint branches for review; the synced `main` branches remain clean.
 
 ## Coordination and next work
