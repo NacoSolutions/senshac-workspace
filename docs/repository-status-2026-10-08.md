@@ -6,7 +6,7 @@ Snapshot of `senshac-workspace` and its five focused repositories, checked again
 
 | Repository | Seeds totals | Open items | Plans on synced `main` | Mulch records | Mulch health |
 | --- | ---: | --- | --- | ---: | --- |
-| `senshac-workspace` | 19: 8 open, 11 closed | `senshac-workspace-c714`, `senshac-workspace-83d8`, `senshac-workspace-c9f9`, `main-f86f`, `senshac-workspace-74f5`, `senshac-workspace-a51d`, `senshac-workspace-e238`, `senshac-workspace-0f80` | `pl-535f` approved | 2 | 16 checks pass; 0 stale records after confirming 2 outcomes |
+| `senshac-workspace` | 20: 9 open, 11 closed | `senshac-workspace-c714`, `senshac-workspace-83d8`, `senshac-workspace-c9f9`, `main-f86f`, `senshac-workspace-74f5`, `senshac-workspace-a51d`, `senshac-workspace-e238`, `senshac-workspace-0f80`, `senshac-workspace-3f03` | `pl-535f` approved | 2 | 16 checks pass; 0 stale records after confirming 2 outcomes |
 | `senshac-web` | 19: 6 open, 13 closed | `0fc7`, `16e0`, `cc1c`, `3466`, `8012` (blocked), `7174` | `pl-4c11`, `pl-7e2a` approved | 36 | 16 checks pass; 29 stale records |
 | `senshac-content` | 5: 2 open, 3 closed | `4d42`, `6158` | none | 2 | 16 checks pass; 1 stale record |
 | `senshac-infra` | 3: 1 open, 2 closed | `3e90` | none | 1 | 16 checks pass; 1 stale record |
@@ -15,7 +15,7 @@ Snapshot of `senshac-workspace` and its five focused repositories, checked again
 
 Open Seeds are summarized below. Use `seeds show <id>` in the owning repo for full acceptance and dependency details.
 
-- Workspace: `c714` cutover acceptance; `83d8` platform cutover; `c9f9` editorial migration; `f86f` legacy cutover; `74f5` portable agent skills; `a51d` archived monitoring; `e238` documentationwatch; `0f80` deferred Buzz/Warren bridge.
+- Workspace: `c714` cutover acceptance; `83d8` platform cutover; `c9f9` editorial migration; `f86f` legacy cutover; `74f5` portable agent skills; `a51d` archived monitoring; `e238` documentationwatch; `0f80` deferred Buzz/Warren bridge; `3f03` checkpoint/Tracker reconciliation.
 - Web: `0fc7` missing constitution; `16e0` coverage floors; `cc1c` content-config size exception; `3466` gatewatch PR-title finding; `8012` blocked coverage slack; `7174` tastewatch digest.
 - Content: `4d42` missing constitution; `6158` tastewatch digest.
 - Infra: `3e90` missing constitution.
