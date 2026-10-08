@@ -1,3 +1,11 @@
-# Scheduled runs are deliberately disabled until a bounded nightly task has
-# an owner, a Seeds record, a cost cap, and an acceptance contract.
-[]
+# Scheduled runs require a bounded task, an owner, a Seeds record, a cost
+# cap, and an acceptance contract.
+- id: documentationwatch-weekly-1ampvzyahvej
+  kind: cron
+  cron: '39 3 * * 6'
+  role: documentationwatch
+  timezone: Europe/Madrid
+  maxCostUsd: 0.01
+  prompt: |
+    Inspect recent merged changes and their related documentation. Update only concrete, verified documentation drift; keep edits docs-only and run available documentation checks. If documentation is current, report that without committing.
+
