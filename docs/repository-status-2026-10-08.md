@@ -1,13 +1,13 @@
 # Cross-repository status — 2026-10-08
 
-Snapshot of `senshac-workspace` and its five focused repositories, checked against fetched `origin/main` on 2026-10-08. Each local `main` is clean and exactly aligned with `origin/main`. The remote repositories had no open PRs at audit time. Local checkpoint branches remain unpushed.
+Snapshot of `senshac-workspace` and its five focused repositories, checked against fetched `origin/main` on 2026-10-08 and refreshed after PR #33 and PR #149 merged. Each local `main` is clean and exactly aligned with `origin/main`. The remote repositories had no open PRs at the initial audit; both follow-up PRs are now merged. Local checkpoint branches remain unpushed.
 
 ## Current Seeds, plans, and Mulch
 
 | Repository | Seeds totals | Open items | Plans on synced `main` | Mulch records | Mulch health |
 | --- | ---: | --- | --- | ---: | --- |
-| `senshac-workspace` | 20: 9 open, 11 closed | `senshac-workspace-c714`, `senshac-workspace-83d8`, `senshac-workspace-c9f9`, `main-f86f`, `senshac-workspace-74f5`, `senshac-workspace-a51d`, `senshac-workspace-e238`, `senshac-workspace-0f80`, `senshac-workspace-3f03` | `pl-535f` approved | 2 | 16 checks pass; 0 stale records after confirming 2 outcomes |
-| `senshac-web` | 19: 6 open, 13 closed | `0fc7`, `16e0`, `cc1c`, `3466`, `8012` (blocked), `7174` | `pl-4c11`, `pl-7e2a` approved | 36 | 16 checks pass; 29 stale records |
+| `senshac-workspace` | 20: 9 open, 11 closed | `senshac-workspace-c714`, `senshac-workspace-83d8`, `senshac-workspace-c9f9`, `main-f86f`, `senshac-workspace-74f5`, `senshac-workspace-a51d`, `senshac-workspace-e238`, `senshac-workspace-0f80`, `senshac-workspace-3f03` | `pl-535f` approved | 2 | 16 checks pass; 2 stale records |
+| `senshac-web` | 20: 6 open, 14 closed | `0fc7`, `16e0`, `cc1c`, `3466`, `8012` (blocked), `7174` | `pl-4c11`, `pl-7e2a` approved | 37 | 16 checks pass; 28 stale records |
 | `senshac-content` | 5: 2 open, 3 closed | `4d42`, `6158` | none | 2 | 16 checks pass; 1 stale record |
 | `senshac-infra` | 3: 1 open, 2 closed | `3e90` | none | 1 | 16 checks pass; 1 stale record |
 | `senshac-runner` | 29: 2 open, 27 closed | `9ae7`, `ratchetwatch-1791090224` | `nightwatch-2026-10-04-001` open | 63 | 16 checks pass; 9 stale records |
@@ -30,26 +30,33 @@ All six `main` branches are clean and match their current `origin/main` tips. A 
 
 | Repository | Synced `main` | Local checkpoint | Notes |
 | --- | --- | --- | --- |
-| Workspace | `d927bf5` | `48ffed3` | Contains local WEB-1 plan `pl-41ea` and children; these are absent from synced `main`. Also contains a prior status draft and Warren governance changes. |
-| Web | `c66124d` | `6a6a959` | Contains `.engram/`/`.devenv/` ignore changes, tracked `devenv.lock`, and a local Seeds metadata edit. |
+| Workspace | `0392101` | `48ffed3` | Contains local WEB-1 plan `pl-41ea` and children; these are absent from synced `main`. Also contains a prior status draft and Warren governance changes. |
+| Web | `7d7928c` | `6a6a959` | Contains `.engram/`/`.devenv/` ignore changes, tracked `devenv.lock`, and a local Seeds metadata edit. |
 | Content | `9ae2fe2` | `171cf83` | Checkpoint includes merged PR #36 commit `327c05c`; review its diff against current main before reusing any content. |
 | Infra | `dae52fb` | `3a05e36` | Contains local Warren config, triggers, and a Constitution draft. |
 | Runner | `f790211` | `2fd2a8b` | Contains local Warren config, triggers, and a Constitution draft. |
 | Media-runner | `20937e0` | `d5393cb` | Contains local Warren config, triggers, and a Constitution draft. |
 
-The Constitution draft carries provenance and metrics from outside these repositories; verify or replace that material before proposing it. Two web branches also remain because they contain an extra unmerged Warren config commit beyond their merged PRs. Active Tina worktrees remain preserved. Sixteen merged local branch refs and stale remote-tracking refs were cleaned during the initial sync. The verified stale-dist fix is on `bug/e2e-fresh-dist-20261008` at rebased commit `d6faa80`; Seed `senshac-web-4828` is closed with 5/5 E2E evidence, and its Mulch record has a success outcome. Web PR #149 is open; the fix remains excluded from synced-main counts until merged.
+The Constitution draft carries provenance and metrics from outside these repositories; verify or replace that material before proposing it. Two web branches also remain because they contain an extra unmerged Warren config commit beyond their merged PRs. Active Tina worktrees remain preserved. Sixteen merged local branch refs and stale remote-tracking refs were cleaned during the initial sync. The verified stale-dist fix from `bug/e2e-fresh-dist-20261008` was merged by web PR #149; `senshac-web/main` now contains squash commit `7d7928c`. Seed `senshac-web-4828` is closed with 5/5 E2E evidence, and its Mulch record has a success outcome. Both follow-up PR branches were removed after merge; the six pre-sync checkpoint branches remain local and unpushed.
 
-WEB-1 implementation appears substantially delivered after the local plan was authored: web PR #138 (`feat(inquiry): add adaptive situation and service flow`) and content PR #45 (`feat(content): add adaptive service inquiry routing`) are merged. GitHub reports PR #138 contract/readiness checks successful. Local verification on synced `main`: web inquiry/contact tests 9/9, content inquiry/localization/CTA tests 8/8, and inquiry/expansion Playwright E2E 5/5 after rebuilding current `dist`. Current web code renders both editable selectors in `src/components/ContactForm.astro` and validates situation/service pairs in `src/utils/inquiry-contract.mjs`; current content carries localized home/service preselection links and routing tests. The first E2E attempt used a Sep 27 `dist`; `playwright.config.ts` only checks `test -d dist`, so it skipped rebuild and produced 4 false failures. The defect is fixed on `bug/e2e-fresh-dist-20261008` (commit `d6faa80`): the Playwright web server now always runs `bun run build`. The same focused suite passed 5/5 with automatic build; Seed `senshac-web-4828` is closed and its Mulch failure record has a success outcome. PR #149 is open and its checks are queued; the fix is not yet merged into synced `main`. The old workspace plan is still only on the local checkpoint. Restore it to canonical Seeds with test/PR evidence or close it as superseded; avoid reimplementing already-merged work.
+WEB-1 implementation appears substantially delivered after the local plan was authored: web PR #138 (`feat(inquiry): add adaptive situation and service flow`) and content PR #45 (`feat(content): add adaptive service inquiry routing`) are merged. GitHub reports PR #138 contract/readiness checks successful. Local verification on synced `main`: web inquiry/contact tests 9/9, content inquiry/localization/CTA tests 8/8, and inquiry/expansion Playwright E2E 5/5 after rebuilding current `dist`. Current web code renders both editable selectors in `src/components/ContactForm.astro` and validates situation/service pairs in `src/utils/inquiry-contract.mjs`; current content carries localized home/service preselection links and routing tests. The first E2E attempt used a Sep 27 `dist`; `playwright.config.ts` only checks `test -d dist`, so it skipped rebuild and produced 4 false failures. The defect is fixed on `bug/e2e-fresh-dist-20261008` (commit `d6faa80`): the Playwright web server now always runs `bun run build`. The same focused suite passed 5/5 with automatic build; Seed `senshac-web-4828` is closed and its Mulch failure record has a success outcome. PR #149 merged after all GitHub checks passed; synced `main` includes the fix at `7d7928c`. The old workspace plan is still only on the local checkpoint. Restore it to canonical Seeds with test/PR evidence or close it as superseded; avoid reimplementing already-merged work.
 
-`.engram/` is locally excluded in each repository. Ignore rules and the web lockfile are preserved on the checkpoint branches for review; the synced `main` branches remain clean.
+`.engram/` remains locally excluded in each repository. The web PR merged `.devenv/` and `.engram/` ignore rules plus the tracked `devenv.lock`; all synced `main` worktrees remain clean.
 
 ## Coordination and next work
 
-Tracking issue created on this local report branch: `senshac-workspace-3f03` — reconcile checkpoint branches, restore/replace WEB-1 tracker state, refresh Mulch, and write Engram records after runtime registration. It becomes canonical only when this branch is reviewed and merged.
+Coordination Seed `senshac-workspace-3f03` and this status report became canonical when workspace PR #33 merged (squash commit `0392101`). The issue remains open for checkpoint reconciliation, WEB-1 tracker follow-up, Mulch refresh, and Engram writes after runtime registration.
 
 1. Reconcile local checkpoint changes against the synced bases; split useful changes into focused PR branches and leave superseded state archived.
 2. Restore or revalidate workspace WEB-1 plan `pl-41ea` and its child issues from the local checkpoint before treating the old plan as canonical.
-3. Review PR #149 for web branch `bug/e2e-fresh-dist-20261008` (`d6faa80`), wait for checks, and merge so the verified stale-dist fix and Seeds/Mulch evidence reach canonical `main`.
+3. ✅ Merge web PR #149 (`7d7928c`); stale-dist fix and Seeds/Mulch evidence now live on canonical `main`.
 4. Triage the open constitution/coverage/ratchet/tastewatch Seeds in their owning repos; update Mulch only after verifying stale records against current docs and code.
 5. Register the runtime via the host startup/resume hook, then write cross-repo Engram observations with valid session attribution.
 6. Keep deployments, DNS, and WordPress out of scope; the WEB-1 acceptance plan requires local verification only.
+
+
+## Post-audit follow-through
+
+- Workspace PR #33 merged the report, README link, coordination Seed, and Mulch updates; synced workspace `main` is `0392101`.
+- Web PR #149 merged the Playwright rebuild fix, closed Seed `senshac-web-4828`, recorded its Mulch success outcome, added `.devenv/` and `.engram/` ignore rules, and tracked `devenv.lock`; synced web `main` is `7d7928c`.
+- Both PRs passed required checks. Local merged feature/report worktrees and branch refs were removed.
