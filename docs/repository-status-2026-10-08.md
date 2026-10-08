@@ -1,6 +1,6 @@
 # Cross-repository status — 2026-10-08
 
-Snapshot of `senshac-workspace` and its five focused repositories, checked against fetched `origin/main` on 2026-10-08. After the earlier audit, workspace PRs #41 and #42, web #151, content #55, infra #28, runner #97, and media-runner #30 merged. All six local `main` worktrees are clean and exactly aligned with `origin/main` at the revisions in the checkpoint reconciliation table below. The local-only checkpoint branches remain unpushed; see [the checkpoint reconciliation audit](checkpoint-reconciliation-2026-10-08.md) for evidence-backed proposed dispositions. No checkpoint has been merged or deleted.
+Snapshot of `senshac-workspace` and its five focused repositories, checked against fetched `origin/main` on 2026-10-08. After the earlier audit, workspace PRs #41 and #42, web #151, content #55, infra #28, runner #97, and media-runner #30 merged. The checkpoint table records each `main` ref at audit time. Workspace PR #43 later advanced only workspace `main` to `b792425` by merging the audit report/Seed update; it did not change any checkpoint or focused-repository `main` ref. All six local main worktrees are currently clean and exactly aligned with `origin/main`. The local-only checkpoint branches remain unpushed; see [the checkpoint reconciliation audit](checkpoint-reconciliation-2026-10-08.md) for evidence-backed proposed dispositions. No checkpoint has been merged or deleted.
 
 ## Current Seeds, plans, and Mulch
 
@@ -31,7 +31,7 @@ Runner review confirmed the 13 remaining candidates against current scripts, doc
 
 All six `main` branches are clean and match their current `origin/main` tips. A local-only branch, `wip/pre-main-cleanup-20261008`, preserves each pre-sync checkout's working-tree contents as a committed snapshot:
 
-| Repository | Synced `main` | Local checkpoint | Notes |
+| Repository | Synced `main` at checkpoint audit | Local checkpoint | Notes |
 | --- | --- | --- | --- |
 | Workspace | `b17ce66` | `48ffed3` | Retain pending owner review of Warren triggers/config, Constitution draft, and workspace devenv proposal; stale Seed/status snapshots are superseded. `.devenv/`/`.engram/` ignores are canonical. |
 | Web | `f300d4b` | `55e855a` | Older snapshot predating merged inquiry/page-chrome work (#138–#142); ignore rules and tracked `devenv.lock` are canonical. Also reintroduces a per-repo Warren image override and removes documentationwatch; proposed archive after owner confirmation. |
