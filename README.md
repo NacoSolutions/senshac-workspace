@@ -74,3 +74,5 @@ operator token from Podman, and supports `show` and `wait` for run tracking.
 link when both web and content checkouts are present. This enables local Tina
 editing while keeping the content repository independently tracked; the link is
 recorded in the web worktree's Git exclude file and is absent from commits.
+
+See [`docs/repository-status-2026-10-08.md`](docs/repository-status-2026-10-08.md) for the dated cross-repository Seeds, Mulch, branch, and Engram snapshot.
