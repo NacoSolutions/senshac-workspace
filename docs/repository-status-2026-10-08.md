@@ -1,6 +1,6 @@
 # Cross-repository status — 2026-10-08
 
-Snapshot of `senshac-workspace` and its five focused repositories, checked against fetched `origin/main` on 2026-10-08 and refreshed after PRs #33, #34, #35, #149, #25, #26, #28, #52, #53, and #94 merged. Each local `main` is clean and exactly aligned with `origin/main`. The remote repositories had no open PRs at the initial audit; both follow-up PRs are now merged. Local checkpoint branches remain unpushed.
+Snapshot of `senshac-workspace` and its five focused repositories, checked against fetched `origin/main` on 2026-10-08 and refreshed after PRs #33, #34, #35, #149, #25, #26, #28, #52, #53, #94, and #36 merged, then rechecked on 2026-10-08. Each local `main` is clean and exactly aligned with `origin/main`. No repo had open PRs at the initial audit; all listed follow-up PRs are now merged. Local checkpoint branches remain unpushed.
 
 ## Current Seeds, plans, and Mulch
 
@@ -10,7 +10,7 @@ Snapshot of `senshac-workspace` and its five focused repositories, checked again
 | `senshac-web` | 20: 6 open, 14 closed | `0fc7`, `16e0`, `cc1c`, `3466`, `8012` (blocked), `7174` | `pl-4c11`, `pl-7e2a` approved | 37 | 16 checks pass; 28 stale records |
 | `senshac-content` | 5: 2 open, 3 closed | `4d42`, `6158` | none | 2 | 16 checks pass; 1 stale record |
 | `senshac-infra` | 3: 1 open, 2 closed | `3e90` | none | 1 | 16 checks pass; 1 stale record |
-| `senshac-runner` | 29: 2 open, 27 closed | `9ae7`, `ratchetwatch-1791090224` | `nightwatch-2026-10-04-001` open | 63 | 16 checks pass; 9 stale records |
+| `senshac-runner` | 29: 2 open, 27 closed | `9ae7`, `ratchetwatch-1791090224` | `nightwatch-2026-10-04-001` open | 63 | 16 checks pass; 13 stale records |
 | `senshac-media-runner` | 3: 2 open, 1 closed | `83ab`, `b59d` | none | 2 | 16 checks pass; 1 stale record |
 
 Open Seeds are summarized below. Use `seeds show <id>` in the owning repo for full acceptance and dependency details.
@@ -22,7 +22,7 @@ Open Seeds are summarized below. Use `seeds show <id>` in the owning repo for fu
 - Runner: `9ae7` missing constitution; `ratchetwatch-1791090224` missing ratchets.
 - Media-runner: `83ab` missing constitution; `b59d` tastewatch digest.
 
-Mulch validation passed in all six repositories, with stale-record warnings summarized above. Workspace Engram's last available audit showed 281 observations; no child-repository Engram project data was registered then. Agent-attributed Engram writes remain blocked until the host registers its runtime identity. One explicit CLI/manual project observation (`#1577`) records this cleanup snapshot without session attribution; it does not register the runtime.
+Mulch doctor passed in all six repositories (16 checks each); warnings are stale-record lifecycle findings summarized above, not validation failures. Runner has 13 stale records at this refresh, up from 9 in the earlier snapshot. Web doctor reports 28 stale records; `mulch stale` lists 29 candidates because it also flags a changed anchor on the foundational workflow convention. Workspace Engram stats showed 285 observations at this audit; project listing showed the aggregate `senshac` project but no per-child-repository projects. Agent-attributed Engram writes remain blocked until the host registers its runtime identity. Independent CLI/manual observations (including #1577 and #1583) do not register the runtime.
 
 ## Local branch and checkpoint state
 
@@ -30,7 +30,7 @@ All six `main` branches are clean and match their current `origin/main` tips. A 
 
 | Repository | Synced `main` | Local checkpoint | Notes |
 | --- | --- | --- | --- |
-| Workspace | `e7b0160` | `48ffed3` | Retain for owner review: stale Seeds snapshot, unreviewed Warren triggers/config, and a Constitution draft with external provenance. Its `.devenv/`/`.engram/` ignore additions and report link are now canonical. |
+| Workspace | `3c327ae` | `48ffed3` | Retain for owner review: stale Seeds snapshot, unreviewed Warren triggers/config, and a Constitution draft with external provenance. Its `.devenv/`/`.engram/` ignore additions and report link are now canonical. |
 | Web | `7d7928c` | `6a6a959` | Retain for owner review of a historical Seeds metadata update; ignore rules and tracked `devenv.lock` are now canonical via PR #149. |
 | Content | `1bcdbac` | `171cf83` | Retain for review of historical Seeds close-reason evidence and Warren default-provider/model removal; `.engram/` ignore and tracked `devenv.lock` are now canonical via PRs #52 and #53. |
 | Infra | `dc959c1` | `3a05e36` | Retain for owner review: Warren config/trigger changes and a Constitution draft with unverifiable external provenance; `.engram/` ignore and tracked lock are now canonical via PRs #25 and #26. |
@@ -57,8 +57,8 @@ Coordination Seed `senshac-workspace-3f03` and this status report became canonic
 
 ## Post-audit follow-through
 
-- Workspace PR #33 merged the report, README link, coordination Seed, and Mulch updates; synced workspace `main` was `0392101` immediately after that merge.
+- Workspace PR #33 merged the report, README link, coordination Seed, and Mulch updates; synced workspace `main` was `0392101` immediately after that merge. PR #36 later recorded WEB-1 disposition and checkpoint review boundaries; this refresh updates runner Mulch stale count from 9 to 13 and Engram project inventory.
 - Web PR #149 merged the Playwright rebuild fix, closed Seed `senshac-web-4828`, recorded its Mulch success outcome, added `.devenv/` and `.engram/` ignore rules, and tracked `devenv.lock`; synced web `main` is `7d7928c`.
 - All status, ignore, lockfile, and E2E PRs passed required checks. Their merged worktrees and branch refs were removed; only the six pre-sync checkpoints and active Tina/Warren worktrees remain.
-- WEB-1 plan `pl-41ea` was validated against the merged implementation and explicitly superseded on canonical Seeds by closed issue `senshac-workspace-1022`; the stale plan snapshot remains on the local checkpoint for history.
+- WEB-1 plan `pl-41ea` was validated against the merged implementation and explicitly superseded on canonical Seeds by closed issue `senshac-workspace-1022`; the stale plan snapshot remains on the local checkpoint for history. PR #36 updated this report and coordination Seed; a subsequent Mulch doctor audit found runner stale count 13 (earlier report: 9), while other repository counts remain unchanged.
 - Ignore rules were standardized across all six repos; tracked devenv locks now exist in web, content, infra, runner, and media-runner. Runner PR #94 also includes `.gitignore` in CI path filters so the required `validate` check runs for ignore-only edits.
