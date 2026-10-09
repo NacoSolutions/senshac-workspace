@@ -75,4 +75,4 @@ link when both web and content checkouts are present. This enables local Tina
 editing while keeping the content repository independently tracked; the link is
 recorded in the web worktree's Git exclude file and is absent from commits.
 
-See [`docs/repository-status-2026-10-08.md`](docs/repository-status-2026-10-08.md) for the dated cross-repository Seeds, Mulch, branch, and Engram snapshot.
+See [`docs/repository-status-2026-10-09.md`](docs/repository-status-2026-10-09.md) for the latest cross-repository Seeds, Mulch, branch, and Engram snapshot. The October 8 report remains as historical context.
