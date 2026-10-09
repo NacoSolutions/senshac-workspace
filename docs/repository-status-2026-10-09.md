@@ -1,13 +1,13 @@
 # Cross-repository status — 2026-10-09
 
-Snapshot of `senshac-workspace` and its five focused repositories, based on workspace main `ee741e7`, web main `da62d05`, and runner main `e1ff6da`. Content remains at its audited head. The runner worktree has a local `devenv.lock` edit; it is preserved and not included in this report.
+Snapshot of `senshac-workspace` and its five focused repositories, based on workspace main `ee741e7`, web main `74790b2`, and runner main `e1ff6da`. Content remains at its audited head. The runner worktree has a local `devenv.lock` edit; it is preserved and not included in this report.
 
 ## Repository state
 
 | Repository | Main SHA | Seeds (open / active / closed / blocked) | Ready | Mulch doctor (pass / warn / fail) | Actionable `mulch stale` |
 | --- | --- | ---: | ---: | ---: | ---: |
 | `senshac-workspace` | `ee741e7` | 22 (5 / 1 / 16 / 2) | 3 | 16 / 1 / 0 | 0 |
-| `senshac-web` | `da62d05` | 23 (2 / 0 / 21 / 0) | 2 | 16 / 1 / 0 | 0 |
+| `senshac-web` | `74790b2` | 23 (2 / 0 / 21 / 0) | 2 | 16 / 1 / 0 | 0 |
 | `senshac-content` | `7bb01de` | 6 (3 / 0 / 3 / 0) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-infra` | `a99fc81` | 3 (1 / 0 / 2 / 0) | 1 | 16 / 1 / 0 | 0 |
 | `senshac-runner` | `e1ff6da` | 30 (3 / 0 / 27 / 0) | 3 | 16 / 1 / 0 | 0 |
@@ -20,7 +20,7 @@ Counts come from each repository's main worktree. Blocked is an overlapping subs
 - Web PR #152 corrected production canonical, hreflang, Open Graph, and LocalBusiness origins. PR #154 added explicit GitHub Actions Pages deployment on main pushes; production run [#37929125856](https://github.com/NacoSolutions/senshac-web/actions/runs/37929125856) succeeded. Cloudflare Pages direct Git production deployments remain disabled.
 - Web PR #156 fixed localized Tina admin redirects and deployed through the explicit workflow (run #37933779118). Web Seed `senshac-web-8410` closed in PR #157. Live localized routes and admin redirects were verified; DNS was unchanged.
 - Web PR #159 fixed the coverage runner's stale test paths, raised floors to 95.90% functions / 97.35% lines (measured 96.15% / 97.60%), and grandfathered `src/content.config.ts` at 538 lines. All 51 tests passed; coverage, file-size, lint, typecheck, and CI checks passed. Ratchet plan `pl-4c11` and its Seeds were closed; no deployment occurred.
-- Owner ratified the web audit constitution. PR #160 added `docs/CONSTITUTION.md`; PR #161 marked it authoritative and closed Seed `senshac-web-0fc7`. PR #162 closed `senshac-web-1dc6` as a non-finding under Article I. All three PRs passed contract and readiness CI; no deployment occurred.
+- Owner ratified the web audit constitution. PR #160 added `docs/CONSTITUTION.md`; PR #161 marked it authoritative and closed Seed `senshac-web-0fc7`. PR #162 closed `senshac-web-1dc6` as a non-finding under Article I; PR #164 refreshed the closed Seed description to reflect ratification. All four PRs passed contract and readiness CI; no deployment occurred.
 - Workspace PRs #49–#52 updated production deployment evidence and Cloudflare access notes. PR #52 documented earlier R2 API failures and a missing R2 scope in the then-active Wrangler profile.
 - Owner created separate `estercobles` and `rogernavelsaker` Wrangler and `cf` profiles. `wrangler auth list` now lists both; both `cf` profiles validate with R2 read/write scopes. From `/home/rona`, Wrangler can read `senshac-media-prod` using `--profile estercobles`. The other account's R2 bucket-list request returns API 10042 (R2 not enabled for that account), not an authentication failure. Running these CLIs from the workspace root currently fails because `node_modules/.cache/wrangler` or `node_modules/.cache/cloudflare` is absent; invoking from `/home/rona` works. The completed R2 CORS update remains live and verified.
 - Updated the existing `senshac-media-prod` CORS rule by adding only `https://cutover.senshac.com`; preserved existing origins, GET/HEAD methods, headers, exposed headers, and 86400-second max age. After propagation, fresh GET probes returned HTTP 200 and the matching `Access-Control-Allow-Origin` for both cutover and legacy `www` origins.
