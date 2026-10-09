@@ -1,12 +1,12 @@
 # Cross-repository status — 2026-10-09
 
-Snapshot of `senshac-workspace` and its five focused repositories, based on workspace main `119c7fd` and web main `6a0e6dd`. Content and runner remain at their audited heads. The runner worktree has a local `devenv.lock` edit; it is preserved and not included in this report.
+Snapshot of `senshac-workspace` and its five focused repositories, based on workspace main `4ec0f6a` and web main `6a0e6dd`. Content and runner remain at their audited heads. The runner worktree has a local `devenv.lock` edit; it is preserved and not included in this report.
 
 ## Repository state
 
 | Repository | Main SHA | Seeds (open / active / closed / blocked) | Ready | Mulch doctor (pass / warn / fail) | Actionable `mulch stale` |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `senshac-workspace` | `119c7fd` | 22 (5 / 1 / 16 / 2) | 3 | 16 / 1 / 0 | 0 |
+| `senshac-workspace` | `4ec0f6a` | 22 (5 / 1 / 16 / 2) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-web` | `6a0e6dd` | 23 (7 / 0 / 16 / 1) | 6 | 16 / 1 / 0 | 3 |
 | `senshac-content` | `7bb01de` | 6 (3 / 0 / 3 / 0) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-infra` | `a99fc81` | 3 (1 / 0 / 2 / 0) | 1 | 16 / 1 / 0 | 0 |
@@ -20,15 +20,17 @@ Counts come from each repository's main worktree. Blocked is an overlapping subs
 - Web PR #152 corrected production canonical, hreflang, Open Graph, and LocalBusiness origins. PR #154 added explicit GitHub Actions Pages deployment on main pushes; production run [#37929125856](https://github.com/NacoSolutions/senshac-web/actions/runs/37929125856) succeeded. Cloudflare Pages direct Git production deployments remain disabled.
 - Web PR #156 fixed localized Tina admin redirects and deployed through the explicit workflow (run #37933779118). Web Seed `senshac-web-8410` closed in PR #157. Live localized routes and admin redirects were verified; DNS was unchanged.
 - Workspace PRs #49–#52 updated production deployment evidence and Cloudflare access notes. PR #52 records that Wrangler OAuth has Pages access but no R2 permission.
+- Read-only R2 access was recovered by selecting the confirmed `estercobles` account with `CLOUDFLARE_ACCOUNT_ID`; Wrangler's bucket-list and CORS-list calls succeeded even though `wrangler whoami` does not enumerate an R2 scope.
+- Updated the existing `senshac-media-prod` CORS rule by adding only `https://cutover.senshac.com`; preserved existing origins, GET/HEAD methods, headers, exposed headers, and 86400-second max age. After propagation, fresh GET probes returned HTTP 200 and the matching `Access-Control-Allow-Origin` for both cutover and legacy `www` origins.
 - Content and runner were re-audited: content quality checks passed; runner lock checks, 19 unit tests, and script syntax checks passed. The runner's uncommitted `devenv.lock` change remains preserved.
 - Cross-repository Seeds/Mulch health and preserved cleanup checkpoints were reviewed. The six `wip/pre-main-cleanup-20261008` checkpoints remain preserved; their small diffs were reviewed and not merged wholesale.
 
 ## Remaining cutover risks and decisions
 
-- **R2 CORS:** The 2026-10-09 public-image probe returned HTTP 200 without `Access-Control-Allow-Origin` for `https://cutover.senshac.com`, while allowing `https://www.senshac.com`. Owner confirmed Pages and R2 belong to Cloudflare account `estercobles`. Current `wrangler whoami` confirms OAuth lists Pages write but no R2 scope; API reads against the account previously failed with error 7003. No R2 policy or DNS change was made. Next: obtain R2 read access, inspect the full `senshac-media-prod` CORS policy, then apply only the approved origin change.
+- **R2 CORS:** Resolved on 2026-10-09. The only policy change added `https://cutover.senshac.com` to the existing `senshac-media-prod` allowlist; the post-change GET probe verified CORS for both cutover and legacy origins. Use `CLOUDFLARE_ACCOUNT_ID=41d4ea19fb0990f630257332c927aedb` for Wrangler R2 commands in this multi-account profile. No DNS change was made.
 - **Pages token:** Pages production configuration contains `CLOUDFLARE_API_TOKEN`; repository search found no application/runtime reference, while GitHub Actions has a separate deployment secret. Keep the disposition pending owner decision; no secret value was displayed or changed.
 - **Rollback:** `senshac.com` still serves the legacy provider and returns HTTP 200. No rollback rehearsal has been performed; keep the legacy site until final acceptance and owner-approved rehearsal.
-- Workspace Seed `senshac-workspace-83d8` remains in progress. R2 CORS, Pages-token disposition, and rollback rehearsal remain open. Seed `senshac-workspace-c714` is final localized-route, Tina edit-flow, media/font, SEO/accessibility/performance, secret-boundary, production-smoke, and rollback acceptance; it remains blocked by `83d8`.
+- Workspace Seed `senshac-workspace-83d8` remains in progress. Pages-token disposition and rollback rehearsal remain open. Seed `senshac-workspace-c714` is final localized-route, Tina edit-flow, media/font, SEO/accessibility/performance, secret-boundary, production-smoke, and rollback acceptance; it remains blocked by `83d8`.
 - Cloudflare DNS was not changed. No WordPress changes were made.
 
 ## Seeds, Mulch, checkpoints, and Engram
@@ -40,8 +42,7 @@ Counts come from each repository's main worktree. Blocked is an overlapping subs
 
 ## Next steps
 
-1. Obtain R2 read access for `estercobles`; inspect the existing bucket CORS rules before making the approved origin adjustment.
-2. Resolve the Pages token's purpose with the owner; do not remove it without approval.
-3. Complete `83d8` and owner-approved rollback rehearsal, then run `c714` final acceptance.
-4. Obtain owner disposition for preserved checkpoints; continue the listed governance and coverage Seeds, and review rather than automatically prune stale Mulch candidates.
-5. Restore authoritative host Engram runtime registration before recording agent-attributed cross-repository memory.
+1. Resolve the Pages token's purpose with the owner; do not remove it without approval.
+2. Complete `83d8` and owner-approved rollback rehearsal, then run `c714` final acceptance.
+3. Obtain owner disposition for preserved checkpoints; continue the listed governance and coverage Seeds, and review rather than automatically prune stale Mulch candidates.
+4. Restore authoritative host Engram runtime registration before recording agent-attributed cross-repository memory.
