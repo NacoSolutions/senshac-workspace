@@ -1,6 +1,6 @@
 # Cross-repository status — 2026-10-09
 
-Snapshot of `senshac-workspace` and the five focused repositories. Local main branches were reconciled with `origin/main`; content and runner were fast-forwarded. The status update merged as workspace PR #45 (`5bbca21`); workspace main is now at that commit. Web main advanced through PR #154 (production workflow) and PR #155 (Seeds closure), now at `4b8dc8b`.
+Snapshot of `senshac-workspace` and the five focused repositories. Local main branches were reconciled with `origin/main`; content and runner were fast-forwarded. The status/Seed refresh merged as workspace PR #45 (`5bbca21`). The workspace table records the main and Seeds state after that merge; PR #46 later changed only the report text. Web main advanced through PR #154 (production workflow) and PR #155 (Seeds closure), now at `4b8dc8b`.
 
 ## Repository state
 
