@@ -36,14 +36,18 @@ Counts come from each repository's main worktree. Blocked is an overlapping subs
 
 ## Seeds, Mulch, checkpoints, and Engram
 
-- Open governance follow-ups include web `senshac-web-0fc7`, content `senshac-content-4d42`, infra `senshac-infra-3e90`, runner `senshac-runner-9ae7` and `senshac-runner-c206`, and media-runner `senshac-media-runner-83ab`. Other ready work includes workspace checkpoint disposition `senshac-workspace-3f03` and web coverage floors `senshac-web-16e0`.
+- Open governance follow-ups include web `senshac-web-0fc7`, content `senshac-content-4d42`, infra `senshac-infra-3e90`, runner `senshac-runner-9ae7` and `senshac-runner-c206`, and media-runner `senshac-media-runner-83ab`. Other ready work includes web coverage floors `senshac-web-16e0`.
 - The age-stale web and runner Mulch records were revalidated against current source/tests and given success outcomes in PRs #158 and #99. `mulch stale` now reports no candidates; records remain available as expertise.
-- The six cleanup checkpoints remain preserved pending owner disposition. The content checkpoint's FAQ change has the same patch ID as the canonical content PR #36, so that code is already represented on main.
+- The six cleanup checkpoints were reviewed under workspace Seed `senshac-workspace-3f03`; no merge was warranted. The content checkpoint's FAQ block and test match canonical main. Checkpoints remain preserved pending a separate archive decision.
 - All six repositories have local `.engram/config.json` project names, while the local Engram database lists only `senshac-workspace`. Runtime registration is not authoritatively available; do not make agent-attributed memory writes until the host registers the runtime identity. Do not substitute another session identity.
 
 ## Next steps
 
 1. Resolve the Pages token's purpose with the owner; do not remove it without approval.
 2. Complete `83d8` and owner-approved rollback rehearsal, then run `c714` final acceptance.
-3. Obtain owner disposition for preserved checkpoints; continue the listed governance and coverage Seeds.
+3. Decide separately whether to archive the preserved checkpoint refs; their review is complete and no branch-only change was merged.
 4. Restore authoritative host Engram runtime registration before recording agent-attributed cross-repository memory.
+
+## Checkpoint review addendum (2026-10-09)
+
+Owner-authorized review is complete. All six remotes were fetched; each `main` matched `origin/main`, and no PR was open at review time. No checkpoint-branch merge was warranted: the content checkpoint's FAQ block and test match canonical `main`; safe ignore/lockfile state is already on `main`; and the Workerd compatibility-date update was merged in PR #113 then reverted in PR #114 after Tina testing. Warren patrol/healer/fixer changes were not merged because their triggers lack explicit Seed and cost bounds; the Constitution snapshot also needs correction before it can govern them. All six checkpoints remain preserved. The uncommitted `senshac-runner/main` `devenv.lock` change was not touched.
