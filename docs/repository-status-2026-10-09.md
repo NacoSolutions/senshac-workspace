@@ -1,19 +1,19 @@
 # Cross-repository status — 2026-10-09
 
-Snapshot of `senshac-workspace` and the five focused repositories. Local main branches were reconciled with `origin/main`; content and runner were fast-forwarded. The workspace status/report branch is `docs/cross-repo-status-2026-10-09` at workspace base `910f107`. It contains the updated workspace Seeds records and this report; those tracker updates are not yet merged. Web main advanced through PR #154 (production workflow) and PR #155 (Seeds closure), now at `4b8dc8b`.
+Snapshot of `senshac-workspace` and the five focused repositories. Local main branches were reconciled with `origin/main`; content and runner were fast-forwarded. The status update merged as workspace PR #45 (`5bbca21`); workspace main is now at that commit. Web main advanced through PR #154 (production workflow) and PR #155 (Seeds closure), now at `4b8dc8b`.
 
 ## Repository state
 
 | Repository | Main SHA | Seeds total (open / active / closed / blocked) | Ready | Mulch doctor (pass / warn / fail) | Actionable `mulch stale` |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `senshac-workspace` | `910f107` | 21 (7 / 0 / 14 / 3) | 3 | 16 / 1 / 0 | 0 |
+| `senshac-workspace` | `5bbca21` | 22 (5 / 1 / 16 / 2) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-web` | `4b8dc8b` | 22 (7 / 0 / 15 / 1) | 6 | 16 / 1 / 0 | 3 |
 | `senshac-content` | `7bb01de` | 6 (3 / 0 / 3 / 0) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-infra` | `a99fc81` | 3 (1 / 0 / 2 / 0) | 1 | 16 / 1 / 0 | 0 |
 | `senshac-runner` | `8545ebb` | 30 (3 / 0 / 27 / 0) | 3 | 16 / 1 / 0 | 1 |
 | `senshac-media-runner` | `edbc7a5` | 3 (2 / 0 / 1 / 0) | 2 | 16 / 1 / 0 | 0 |
 
-Counts are from each main checkout's Seeds and Mulch commands. `Blocked` is an overlapping subset of open issues, not a separate status bucket. All six Seeds doctors pass (12 checks, no warnings). Each Mulch doctor reports 16 passes, one age-only warning, and no failures; age warnings do not imply an actionable stale candidate. The workspace report branch has 22 Seeds (5 open, 1 in progress, 16 closed, 2 blocked) after updating coordination records.
+Counts are from each main checkout's Seeds and Mulch commands. `Blocked` is an overlapping subset of open issues, not a separate status bucket. All six Seeds doctors pass (12 checks, no warnings). Each Mulch doctor reports 16 passes, one age-only warning, and no failures; age warnings do not imply an actionable stale candidate. Workspace main now has 22 Seeds (5 open, 1 in progress, 16 closed, 2 blocked) with the coordination updates merged.
 
 ## Completed and verified
 
