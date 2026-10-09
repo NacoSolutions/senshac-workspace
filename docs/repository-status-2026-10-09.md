@@ -27,7 +27,7 @@ Counts are from each main checkout's Seeds and Mulch commands. `Blocked` is an o
 
 ## Remaining cutover risks and decisions
 
-- R2 production CORS does not include `https://cutover.senshac.com`: a public media GET returns 200 without `Access-Control-Allow-Origin` for that origin. The policy does allow `https://www.senshac.com`. No R2 policy or DNS change was made; owner approval is requested for adding the cutover origin.
+- R2 production CORS still omits `https://cutover.senshac.com`: a fresh GET for a public image returns HTTP 200 without `Access-Control-Allow-Origin` for `Origin: https://cutover.senshac.com`; the same object returns `Access-Control-Allow-Origin: https://www.senshac.com` for the legacy origin. The owner confirmed Pages/R2 are in Cloudflare account `estercobles`. Current `cf` and Wrangler queries explicitly selecting that account fail with Cloudflare API error 7003; the other account has no project/R2. No R2 policy or DNS change was made. Restore API routing/access before inspecting the full existing CORS rule and applying the approved origin.
 - Cloudflare Pages production config contains `CLOUDFLARE_API_TOKEN`; repository search found no application/runtime reference, while GitHub Actions has its own deployment secret. Removal or documented runtime use requires owner confirmation. No secret value was displayed.
 - Live redirect check after PR #156: `/admin`, `/admin/`, `/es/admin`, `/es/admin/`, `/ca/admin`, and `/en/admin` return HTTP 302 to `/admin/index.html`; the canonical bundle returns 200. The Pages-runtime regression check passed; web Seed `senshac-web-8410` closed in PR #157 (`6a0e6dd`).
 - `senshac.com` remains routed to the legacy provider and returns HTTP 200, but a rollback rehearsal has not been performed. Keep the legacy site until final acceptance and an approved rollback test.
@@ -45,7 +45,7 @@ All six repositories have local `.engram/config.json` project names. The local E
 
 ## Next steps
 1. Review and merge this workspace report/Seed PR after checks pass.
-2. Resolve the requested R2 CORS and Pages-token owner decisions; only then make approved infrastructure changes.
+2. Restore Cloudflare API access for account `estercobles`, inspect the existing R2 CORS rule, then proceed with the requested cutover origin and Pages-token owner decisions.
 3. Complete `83d8` headers/redirect/secret-boundary checks and a documented rollback rehearsal, then run `c714` final acceptance.
 4. Get owner disposition for the preserved checkpoints; progress the existing Constitution/mandate, coverage, gatewatch, and runner trigger Seeds.
 5. Restore host Engram runtime registration, then decide whether to register the five focused-repository projects before recording cross-repo memory.
