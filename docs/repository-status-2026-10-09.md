@@ -1,53 +1,47 @@
 # Cross-repository status — 2026-10-09
 
-Snapshot of `senshac-workspace` and the five focused repositories. All local mains match `origin/main`; content and runner remain at their audited heads. Workspace report evidence merged through PR #49 (`de37c1f`). Web PR #156 (`178b545`) fixed localized Tina admin routing and deployed successfully; tracker-only PR #157 closed its Seed as `6a0e6dd`.
+Snapshot of `senshac-workspace` and its five focused repositories, based on workspace main `119c7fd` and web main `6a0e6dd`. Content and runner remain at their audited heads. The runner worktree has a local `devenv.lock` edit; it is preserved and not included in this report.
 
 ## Repository state
 
-| Repository | Main SHA | Seeds total (open / active / closed / blocked) | Ready | Mulch doctor (pass / warn / fail) | Actionable `mulch stale` |
+| Repository | Main SHA | Seeds (open / active / closed / blocked) | Ready | Mulch doctor (pass / warn / fail) | Actionable `mulch stale` |
 | --- | --- | ---: | ---: | ---: | ---: |
-| `senshac-workspace` | `de37c1f` | 22 (5 / 1 / 16 / 2) | 3 | 16 / 1 / 0 | 0 |
+| `senshac-workspace` | `119c7fd` | 22 (5 / 1 / 16 / 2) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-web` | `6a0e6dd` | 23 (7 / 0 / 16 / 1) | 6 | 16 / 1 / 0 | 3 |
 | `senshac-content` | `7bb01de` | 6 (3 / 0 / 3 / 0) | 3 | 16 / 1 / 0 | 0 |
 | `senshac-infra` | `a99fc81` | 3 (1 / 0 / 2 / 0) | 1 | 16 / 1 / 0 | 0 |
 | `senshac-runner` | `8545ebb` | 30 (3 / 0 / 27 / 0) | 3 | 16 / 1 / 0 | 1 |
 | `senshac-media-runner` | `edbc7a5` | 3 (2 / 0 / 1 / 0) | 2 | 16 / 1 / 0 | 0 |
 
-Counts are from each main checkout's Seeds and Mulch commands. `Blocked` is an overlapping subset of open issues, not a separate status bucket. All six Seeds doctors pass (12 checks, no warnings). Each Mulch doctor reports 16 passes, one age-only warning, and no failures; age warnings do not imply an actionable stale candidate. Workspace main now has 22 Seeds (5 open, 1 in progress, 16 closed, 2 blocked) with the coordination updates merged.
+Counts come from each repository's main worktree. Blocked is an overlapping subset of open issues. All six Seeds doctors pass (12 checks, no warnings); all six Mulch doctors pass with one age-related warning and no failures. The web's three and runner's one stale Mulch entries are candidates for review, not automatically deletable records.
 
 ## Completed and verified
 
-- Web PR #152 fixed production canonical/hreflang/Open Graph/LocalBusiness origins. PR #154 (`669bc5f`) added main-push deployments through the explicit GitHub Actions Pages workflow. Checks passed and production run [#37929125856](https://github.com/NacoSolutions/senshac-web/actions/runs/37929125856) succeeded. Cloudflare direct Git production deployments remain disabled; the workflow supplies `PUBLIC_SITE_URL` and the immutable content revision.
-- Read-only Cloudflare project inspection confirmed `production_deployments_enabled=false`. GitHub `main` push at `4b8dc8b` has an idle/queued Pages Git record (`36d66c67`), while canonical deployment `9b018f9c` has a successful deploy stage and alias `cutover.senshac.com`, matching workflow run #37929125856. PR #156 deployed web main `178b545` through the explicit Pages workflow (run #37933779118); direct Git source builds remain disabled.
-- Live `/es/`, `/ca/`, and `/en/` routes return 200. Inspected canonical, hreflang, Open Graph, and LocalBusiness URLs use `https://cutover.senshac.com`; inspected metadata contains no `preview.invalid`. DNS was unchanged.
-- Workspace Seed `senshac-workspace-36a7` records PR #152, successful deployment, and live metadata verification; it is closed on the workspace report branch.
-- Workspace Seed `senshac-workspace-c9f9` records the eight visible Tina collections, successful content edit/deploy evidence, and Warren run reference `run_cr3b17f8hmzr` from merged web PR #48. It is closed on the report branch. The stale dependency edges from that closed Seed were removed; `seeds doctor` now reports 12 passes and no warnings.
-- Workspace Seed `senshac-workspace-83d8` remains in progress and unblocked. Read-only checks confirm the active custom domain, explicit-workflow deployment, unchanged DNS, legacy-root HTTP 200 fallback, and public image/font/HLS objects. Web PR #156 (run #37933779118) resolved the localized admin redirect as detailed below. Remaining `83d8` items: R2 CORS, Pages-token disposition, and rollback rehearsal, all awaiting owner approval where applicable. Content main (`7bb01de`) passed `bun run quality:content` (40 tests, 135 expectations); runner main (`8545ebb`) passed lock check, 19 Python tests, and shell syntax checks. Both commits match `origin/main`; runner has an uncommitted local `devenv.lock` edit, preserved.
-- Web Seed `senshac-web-2fdb` closed with verified PR #154 and deployment evidence. Seeds-only PR #155 merged as `4b8dc8b`; it did not trigger another production deployment, confirming tracker-only changes remain filtered.
+- Web PR #152 corrected production canonical, hreflang, Open Graph, and LocalBusiness origins. PR #154 added explicit GitHub Actions Pages deployment on main pushes; production run [#37929125856](https://github.com/NacoSolutions/senshac-web/actions/runs/37929125856) succeeded. Cloudflare Pages direct Git production deployments remain disabled.
+- Web PR #156 fixed localized Tina admin redirects and deployed through the explicit workflow (run #37933779118). Web Seed `senshac-web-8410` closed in PR #157. Live localized routes and admin redirects were verified; DNS was unchanged.
+- Workspace PRs #49–#52 updated production deployment evidence and Cloudflare access notes. PR #52 records that Wrangler OAuth has Pages access but no R2 permission.
+- Content and runner were re-audited: content quality checks passed; runner lock checks, 19 unit tests, and script syntax checks passed. The runner's uncommitted `devenv.lock` change remains preserved.
+- Cross-repository Seeds/Mulch health and preserved cleanup checkpoints were reviewed. The six `wip/pre-main-cleanup-20261008` checkpoints remain preserved; their small diffs were reviewed and not merged wholesale.
 
 ## Remaining cutover risks and decisions
 
-- R2 production CORS still omits `https://cutover.senshac.com`: a fresh GET for a public image returns HTTP 200 without `Access-Control-Allow-Origin` for `Origin: https://cutover.senshac.com`; the same object returns `Access-Control-Allow-Origin: https://www.senshac.com` for the legacy origin. The owner confirmed Pages/R2 are in Cloudflare account `estercobles`. The active default OAuth profile lists Pages read/write but no R2 scope; `cf` and Wrangler project/R2 reads fail with API error 7003 even when explicitly selecting `estercobles`. No R2 policy or DNS change was made. Reauthenticate with R2 read/write, re-read the full existing CORS rule, then apply only the approved origin.
-- Cloudflare Pages production config contains `CLOUDFLARE_API_TOKEN`; repository search found no application/runtime reference, while GitHub Actions has its own deployment secret. Removal or documented runtime use requires owner confirmation. No secret value was displayed.
-- Live redirect check after PR #156: `/admin`, `/admin/`, `/es/admin`, `/es/admin/`, `/ca/admin`, and `/en/admin` return HTTP 302 to `/admin/index.html`; the canonical bundle returns 200. The Pages-runtime regression check passed; web Seed `senshac-web-8410` closed in PR #157 (`6a0e6dd`).
-- `senshac.com` remains routed to the legacy provider and returns HTTP 200, but a rollback rehearsal has not been performed. Keep the legacy site until final acceptance and an approved rollback test.
-- `senshac-workspace-c714` final localized-route, Tina edit-flow, media/font, SEO/accessibility/performance, secret-boundary, production-smoke, and rollback acceptance remains blocked by `83d8`.
+- **R2 CORS:** The 2026-10-09 public-image probe returned HTTP 200 without `Access-Control-Allow-Origin` for `https://cutover.senshac.com`, while allowing `https://www.senshac.com`. Owner confirmed Pages and R2 belong to Cloudflare account `estercobles`. Current `wrangler whoami` confirms OAuth lists Pages write but no R2 scope; API reads against the account previously failed with error 7003. No R2 policy or DNS change was made. Next: obtain R2 read access, inspect the full `senshac-media-prod` CORS policy, then apply only the approved origin change.
+- **Pages token:** Pages production configuration contains `CLOUDFLARE_API_TOKEN`; repository search found no application/runtime reference, while GitHub Actions has a separate deployment secret. Keep the disposition pending owner decision; no secret value was displayed or changed.
+- **Rollback:** `senshac.com` still serves the legacy provider and returns HTTP 200. No rollback rehearsal has been performed; keep the legacy site until final acceptance and owner-approved rehearsal.
+- Workspace Seed `senshac-workspace-83d8` remains in progress. R2 CORS, Pages-token disposition, and rollback rehearsal remain open. Seed `senshac-workspace-c714` is final localized-route, Tina edit-flow, media/font, SEO/accessibility/performance, secret-boundary, production-smoke, and rollback acceptance; it remains blocked by `83d8`.
+- Cloudflare DNS was not changed. No WordPress changes were made.
 
-## Checkpoint and Mulch triage
+## Seeds, Mulch, checkpoints, and Engram
 
-The six `wip/pre-main-cleanup-20261008` checkpoints remain preserved and are 1–3 commits ahead of the current main branches. The audit in [checkpoint-reconciliation-2026-10-08.md](checkpoint-reconciliation-2026-10-08.md) found stale tracker snapshots and unreviewed Warren/governance changes; do not merge them wholesale. The content checkpoint's FAQ patch has the same stable patch ID as canonical content PR #36, so that code is already represented in main. Keep checkpoints until owners disposition any remaining work.
-
-Web has three age-only stale Mulch candidates (live Tina chrome/fresh queries, legacy block parity, and the quality-parity gate); runner has one (Nix `dockerTools` CI image decision). Current code/tests and successful quality verification support retaining them; no stale record was mass-pruned. Constitution/mandate work already has open Seeds: web `senshac-web-0fc7`, content `senshac-content-4d42`, infra `senshac-infra-3e90`, runner `senshac-runner-9ae7` and `senshac-runner-c206`, and media-runner `senshac-media-runner-83ab`. Other ready follow-ups include checkpoint disposition (`senshac-workspace-3f03`) and web coverage floors (`senshac-web-16e0`).
-
-## Engram
-
-All six repositories have local `.engram/config.json` project names. The local Engram database currently contains only the `senshac-workspace` project. The host runtime has not registered an authoritative session identity, so agent-attributed memory writes and the required session summary are unavailable. Do not create a substitute identity or write under another project.
+- Open governance follow-ups include web `senshac-web-0fc7`, content `senshac-content-4d42`, infra `senshac-infra-3e90`, runner `senshac-runner-9ae7` and `senshac-runner-c206`, and media-runner `senshac-media-runner-83ab`. Other ready work includes workspace checkpoint disposition `senshac-workspace-3f03` and web coverage floors `senshac-web-16e0`.
+- Web has three age-only stale Mulch candidates; runner has one. Preserve them until their owners confirm whether to refresh, replace, or retire them. Do not bulk-prune.
+- The six cleanup checkpoints remain preserved pending owner disposition. The content checkpoint's FAQ change has the same patch ID as the canonical content PR #36, so that code is already represented on main.
+- All six repositories have local `.engram/config.json` project names, while the local Engram database lists only `senshac-workspace`. Runtime registration is not authoritatively available; do not make agent-attributed memory writes until the host registers the runtime identity. Do not substitute another session identity.
 
 ## Next steps
-1. Review and merge this workspace report/Seed PR after checks pass.
-2. Reauthenticate Cloudflare account `estercobles` with R2 read/write, inspect the existing CORS rule, then proceed with the approved cutover origin and Pages-token decisions.
-3. Complete `83d8` headers/redirect/secret-boundary checks and a documented rollback rehearsal, then run `c714` final acceptance.
-4. Get owner disposition for the preserved checkpoints; progress the existing Constitution/mandate, coverage, gatewatch, and runner trigger Seeds.
-5. Restore host Engram runtime registration, then decide whether to register the five focused-repository projects before recording cross-repo memory.
 
-No DNS or WordPress changes were made.
+1. Obtain R2 read access for `estercobles`; inspect the existing bucket CORS rules before making the approved origin adjustment.
+2. Resolve the Pages token's purpose with the owner; do not remove it without approval.
+3. Complete `83d8` and owner-approved rollback rehearsal, then run `c714` final acceptance.
+4. Obtain owner disposition for preserved checkpoints; continue the listed governance and coverage Seeds, and review rather than automatically prune stale Mulch candidates.
+5. Restore authoritative host Engram runtime registration before recording agent-attributed cross-repository memory.
