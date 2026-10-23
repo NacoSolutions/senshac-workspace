@@ -6,15 +6,20 @@ application implementation. An agent may load the relevant skill by name:
 
 | Skill | Use it for |
 | --- | --- |
+| `senshac-agent-principles` | Every bounded task; set positive scope, preserve state, and keep evidence economical. |
 | `seeds-issue-lifecycle` | Auditing, advancing, evidencing, and closing a Seeds issue. |
 | `mulch-prime-record` | Priming durable expertise before work and recording a verified lesson after it. |
+| `mulch-cli` | Using the installed `mulch` executable for expertise lifecycle and validation. |
+| `seeds-cli` | Using the installed `seeds` executable for issue lifecycle and evidence. |
 | `terrarium-triage` | Selecting one bounded seed from the canonical Terrarium graph. |
 | `trellis-readiness-drift` | Running pinned Jayminwest Trellis readiness and drift checks. |
-| `warren-run-pr-delivery` | Turning one bounded Warren run into a tested, committed, linked PR. |
-| `seeds-cli` | Using the installed `seeds` executable for issue lifecycle and evidence. |
-| `mulch-cli` | Using the installed `mulch` executable for expertise lifecycle and validation. |
 | `warren-operations` | Scoping, dispatching, and reviewing Warren runs. |
+| `warren-run-pr-delivery` | Turning one bounded Warren run into a tested, committed, linked PR. |
 | `toolchain-bun-web` | Bun, Tina, Astro, HTMX, Alpine, UnoCSS, and Pages build boundaries. |
+| `modular-cutover` | Coordinating migration acceptance while preserving repository and production-approval boundaries. |
+| `git-workflow` | Making focused, reviewable commits for Senshac workspace changes. |
+| `bounded-warren-task` | Executing focused autonomous changes with bounded scope and verification. |
+| `verification-before-completion` | Proving a focused change before commit, handoff, or completion. |
 
 ## Repository consumption
 

@@ -27,12 +27,17 @@ Use [Bounded Warren Task](.agents/skills/bounded-warren-task/SKILL.md) for focus
 | [Senshac agent principles](.agents/skills/senshac-agent-principles/SKILL.md) | Every bounded task; set positive scope, preserve state, and keep evidence economical. |
 | [Seeds issue lifecycle](.agents/skills/seeds-issue-lifecycle/SKILL.md) | Auditing, advancing, or closing a Seeds issue. |
 | [Mulch prime record](.agents/skills/mulch-prime-record/SKILL.md) | Priming repository expertise or recording a reusable lesson. |
+| [Mulch CLI](.agents/skills/mulch-cli/SKILL.md) | Using the installed `mulch` executable for expertise lifecycle and validation. |
+| [Seeds CLI](.agents/skills/seeds-cli/SKILL.md) | Using the installed `seeds` executable for issue lifecycle and evidence. |
 | [Terrarium triage](.agents/skills/terrarium-triage/SKILL.md) | Selecting the next actionable seed from the canonical graph. |
 | [Bun and web toolchain](.agents/skills/toolchain-bun-web/SKILL.md) | Applying the pinned Bun and generated-output contract where workspace tooling uses it. |
 | [Trellis readiness drift](.agents/skills/trellis-readiness-drift/SKILL.md) | Checking pinned Trellis readiness or canonical drift before delivery. |
 | [Modular cutover](.agents/skills/modular-cutover/SKILL.md) | Coordinating migration acceptance while preserving repository and production-approval boundaries. |
+| [Warren operations](.agents/skills/warren-operations/SKILL.md) | Scoping, dispatching, and reviewing Warren runs. |
 | [Warren run PR delivery](.agents/skills/warren-run-pr-delivery/SKILL.md) | Delivering a bounded run through gate, commit, and PR evidence. |
 | [Git workflow](.agents/skills/git-workflow/SKILL.md) | Reviewing, staging, committing, and verifying focused changes. |
+| [Bounded Warren task](.agents/skills/bounded-warren-task/SKILL.md) | Executing focused autonomous changes with bounded scope and verification. |
+| [Verification before completion](.agents/skills/verification-before-completion/SKILL.md) | Proving a focused change before commit, handoff, or completion. |
 
 This repository coordinates workspace integration, Worktrunk delegation, and local development. Keep coordination changes here, and make application changes in the focused repository selected by the seed.
 
